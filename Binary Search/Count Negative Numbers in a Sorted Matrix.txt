@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int index;
+    int countNegatives(vector<vector<int>>& grid) {
+        int count = 0;
+        for(vector<int> row: grid) {
+            index = INT_MAX;
+            int indexOfFirstNegative = getFirstNegativeNumberIndex(row,0,row.size()-1);
+            if(indexOfFirstNegative != INT_MAX) {
+                count += (row.size()-indexOfFirstNegative);
+            }
+        }
+        return count;
+    }
+    
+    int getFirstNegativeNumberIndex(vector<int> &arr, int left, int right) {
+        if(left>right || right<left) {
+            return index;
+        }
+        int mid = (left+right)/2;
+        if(arr[mid]<0 && mid<index) {
+            index = mid;
+            getFirstNegativeNumberIndex(arr, left, mid-1);
+        }
+        else if(arr[mid]>=0){
+            getFirstNegativeNumberIndex(arr,mid+1,right);
+        }
+        return index;
+    }
+};

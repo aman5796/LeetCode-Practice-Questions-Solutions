@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int specialArray(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        int res = -1;
+        int size = nums.size();
+        vector<int>::iterator lowerBound;
+        for(int i=0;i<=nums[size-1];i++) {
+            lowerBound = lower_bound(nums.begin(), nums.end(), i);
+            if(size-(lowerBound-nums.begin()) == i) {
+                res = i;
+                break;
+            }
+        }
+        return res;
+    }
+};

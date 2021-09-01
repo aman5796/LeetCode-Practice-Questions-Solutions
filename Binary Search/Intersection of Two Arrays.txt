@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        int hashTable[1001];
+        set<int> resSet;
+        memset(hashTable, 0 , sizeof(hashTable));
+        for(int num: nums1) {
+            hashTable[num]=1;
+        }
+        for(int num: nums2) {
+            if(hashTable[num]) {
+                resSet.insert(num);
+            }
+        }
+        vector<int> result(resSet.begin(),resSet.end());
+        resSet.clear();
+        return result;
+    }
+};
