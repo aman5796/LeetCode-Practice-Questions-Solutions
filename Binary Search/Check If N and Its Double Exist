@@ -1,0 +1,16 @@
+class Solution {
+public:
+    bool checkIfExist(vector<int>& arr) {
+        sort(arr.begin(), arr.end());
+        int zeroCount = 0;
+        for(int num: arr) {
+            if(num!=0 && binary_search(arr.begin(), arr.end(), num*2)) {
+                return true;
+            }
+            if(num==0){
+                zeroCount++;
+            }
+        }
+        return (zeroCount>1 ? true : false);
+    }
+};

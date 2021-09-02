@@ -1,0 +1,35 @@
+
+/*
+Use of jumping sort
+*/
+class Solution {
+public:
+    int mySqrt(int x) {
+        long long numberViaJumping = jumpingNumber(x);
+        return squareRoot(x, numberViaJumping);
+    }
+    long long jumpingNumber(int x) {
+        long long num = 0;
+        while(num*num < x) {
+            num = num<=1 ? num+1 : num*num;
+        }
+        return num;
+    }
+    long long squareRoot(int x, int right) {
+        long long left = 0;
+        long long num = 0;
+        while(right>=left) {
+            long long mid = (left+right)/2;
+            if(mid*mid == x) {
+                num = mid;
+                break;
+            } else if(mid*mid > x) {
+                right = mid-1;
+            } else {
+                left = mid+1;
+                num = mid;
+            }
+        }
+        return num;
+    }
+};
