@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int rangeSum(vector<int>& nums, int n, int left, int right) {
+        vector<long long int> prefixArr;
+        vector<long long int> arrOfSubarr;
+        long long int sum = 0;
+        for(int num: nums) {
+            sum += num;
+            prefixArr.push_back(sum);
+            arrOfSubarr.push_back(sum);
+        }
+        for(int i=1; i<nums.size();i++) {
+            for(int j=i; j<nums.size(); j++) {
+                if(i==j){
+                    arrOfSubarr.push_back(nums[i]);
+                } else{
+                    arrOfSubarr.push_back(prefixArr[j]-prefixArr[i-1]);
+                }
+            }
+        }
+        sort(arrOfSubarr.begin(), arrOfSubarr.end());
+        sum = 0;
+        vector<long long int> prefixarrOfSubarr;
+        for(long long int num: arrOfSubarr) {
+            sum += num;
+            prefixarrOfSubarr.push_back(sum);
+        }
+        return (left==1) ? ((prefixarrOfSubarr[right-1])%1000000007) : ((prefixarrOfSubarr[right-1]-prefixarrOfSubarr[left-2])%1000000007);
+    }
+};

@@ -1,0 +1,43 @@
+class Solution {
+public:
+    int shipWithinDays(vector<int>& weights, int days) {
+        int sum = 0;
+        int right = 0;
+        int left = -1;
+        for(int num: weights) {
+            if(num > left) {
+                left = num;
+            } 
+            right += num;
+        }
+        int output = left;
+        while(right>=left) {
+            int mid = left + ((right-left)/2);
+            int daz = 0;
+            int sum = 0;
+            for(int i=0;i<weights.size();i++) {
+                sum += weights[i];
+                if(sum > mid) {
+                    if(i!=weights.size()-1) {
+                        daz++;
+                    } else {
+                        daz = daz+2;
+                    }
+                    sum = weights[i];
+                } else if(sum == mid){
+                    daz++;
+                    sum = 0;
+                } else if(i==weights.size()-1 && sum < mid) {
+                    daz++;
+                }
+            }
+            if(daz <= days) {
+                output = mid;
+                right = mid-1;
+            } else {
+                left = mid+1;
+            }
+        }
+        return output;
+    }
+};
