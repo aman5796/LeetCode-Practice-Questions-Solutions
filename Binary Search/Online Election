@@ -1,0 +1,53 @@
+class TopVotedCandidate {
+public:
+    vector<int> time;
+    vector<int> person;
+    TopVotedCandidate(vector<int>& persons, vector<int>& times) {
+        time.clear();
+        person.clear();
+        for(int t: times) {
+            time.push_back(t);
+        }
+        map<int,int> mp;
+        int winner = -1;
+        for(int i=0; i<persons.size(); i++) {
+            if(mp.count(persons[i])==0) {
+                mp.insert(pair<int,int>(persons[i],1));
+            } else {
+                mp.insert(pair<int,int>(persons[i],mp.at(persons[i])++));
+            }
+            if(winner!=-1 && mp.at(persons[i]) >= mp.at(winner)) {
+                winner = persons[i];
+            } else if(winner==-1) {
+                winner = persons[i];
+            }
+            person.push_back(winner);
+        }
+        mp.clear();
+    }
+    
+    int q(int t) {
+        int index = indexOfLargestNumSmallerThant(t);
+        return person[index];
+    }
+    
+    int indexOfLargestNumSmallerThant(int t) {
+        int index = -1;
+        int left = 0;
+        int right = time.size()-1;
+        
+        while(left<=right) {
+            int mid = left+((right-left)/2);
+            if(time[mid]<=t) {
+                index = mid;
+                left = mid+1;
+                if(time[mid]==t) {
+                    break;
+                }
+            } else {
+                right = mid - 1;
+            }
+        }
+        return (index!=-1)?(index):(time.size()-1);
+    }
+};

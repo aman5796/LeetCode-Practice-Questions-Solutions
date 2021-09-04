@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int minEatingSpeed(vector<int>& piles, int h) {
+        int maxBananas = -1;
+        for(int num: piles) {
+            maxBananas = max(num,maxBananas);
+        }
+        int left = 1;
+        int right = maxBananas;
+        int k = right;
+        while(left <= right) {
+            int time = 0;
+            int mid = left + ((right-left)/2);
+            for(int num: piles) {
+                time += ((num/mid)==0) ? 1 : ceil((num/(double)mid));
+            }
+            if(time<=h) {
+                k = mid;
+                right = mid-1;
+            } else {
+                left = mid+1;
+            }
+        }
+        return k;
+    }
+};

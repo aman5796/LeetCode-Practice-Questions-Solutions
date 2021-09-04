@@ -1,0 +1,15 @@
+class Solution {
+public:
+    long long minimumPerimeter(long long neededApples) {
+        long long res = 1;
+        while(true) {
+            long long currentApples = 2*res*(res+1)*((2*res)+1);
+            if(currentApples>=neededApples) {
+                break;
+            } else {
+                res++;
+            }
+        }
+        return (res*8);
+    }
+};

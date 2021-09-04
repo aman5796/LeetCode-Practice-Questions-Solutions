@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        int left = INT_MAX;
+        int right = -1;
+        for(int num: bloomDay) {
+            left = min(left, num);
+            right = max(right, num);
+        }
+        int reqDays = -1;
+        while(left<=right) {
+            int mid = left + ((right-left)/2);
+            int canMake = 0;
+            int contiguous = 0;
+            for(int num: bloomDay) {
+                if(num<=mid) {
+                    contiguous++;
+                    if(contiguous==k) {
+                        canMake++;
+                        contiguous = 0;
+                    }
+                } else {
+                    contiguous = 0;
+                }
+            }
+            if(canMake>=m) {
+                reqDays = mid;
+                right = mid-1;
+            } else {
+                left = mid+1;
+            }
+        }
+        return reqDays;
+    }
+};
