@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        vector<int> prefixArr;
+        int sum = 0;
+        for(int num: nums) {
+            sum += num;
+            prefixArr.push_back(sum);
+        }
+        sum = 0;
+        int ans = 0;
+        int left = 1;
+        int right = nums.size();
+        while(left<=right) {
+            bool flag = false;
+            int mid = left+((right-left)/2);
+            for(int i=0;i<=nums.size()-mid;i++) {
+                if(i==0) {
+                    if(prefixArr[mid-1]>=target){
+                        ans = mid;
+                        right = mid-1;
+                        flag = true;
+                        break;
+                    }
+                } else {
+                    if((prefixArr[i+mid-1]-prefixArr[i-1])>=target) {
+                        ans = mid;
+                        right = mid-1;
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+            if(!flag) {
+                left= mid+1;
+            }
+        }
+        return ans;
+    }
+};
