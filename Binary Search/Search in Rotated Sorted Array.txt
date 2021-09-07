@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        if(nums[0]<=nums[nums.size()-1]) {
+            if(binary_search(nums.begin(),nums.end(),target)) {
+                return (lower_bound(nums.begin(), nums.end(), target) - nums.begin());
+            }
+            return -1;
+        }
+        int left = 0;
+        int right = nums.size()-1;
+        int res = -1;
+        while(left<=right) {
+            int mid = left+((right-left)/2);
+            if(nums[mid] >= nums[0]) {
+                left = mid+1;
+            } else {
+                right = mid-1;
+            }
+        }
+        res = left;
+        if(target >= nums[0] && target<= nums[res-1]) {
+            return getIndex(nums,0,res-1,target);
+        }
+        if(target >= nums[res] && target <= nums[nums.size()-1]) {
+            return getIndex(nums,res,nums.size()-1,target);
+        }
+        return -1;
+    }
+    
+    int getIndex(vector<int>& arr, int left, int right, int target) {
+        while(left<=right) {
+            int mid = left+((right-left)/2);
+            if(arr[mid] == target) {
+                return mid;
+            } else if(arr[mid]>target) {
+                right = mid-1;
+            } else {
+                left = mid+1;
+            }
+        }
+        return -1;
+    }
+};
