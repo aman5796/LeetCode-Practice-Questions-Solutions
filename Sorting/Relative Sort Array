@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<int> relativeSortArray(vector<int>& arr1, vector<int>& arr2) {
+        vector<int> countMap(1002,0);
+        vector<int> res;
+        for(int num: arr1) {
+            ++countMap[num+1];
+        }
+        for(int num: arr2) {
+            while(countMap[num+1]) {
+                res.push_back(num);
+                countMap[num+1]--;
+            }
+        }
+        for(int i=0;i<countMap.size();i++) {
+            while(countMap[i]) {
+                res.push_back(i-1);
+                countMap[i]--;
+            }
+        }
+        return res;
+    }
+};

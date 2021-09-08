@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int arrayPairSum(vector<int>& nums) {
+        countSort(nums);
+        int sum = 0;
+        for(int i=0;i<nums.size();i+=2) {
+            sum += min(nums[i],nums[i+1]);
+        }
+        return sum;
+    }
+    
+    void countSort(vector<int>& arr) {
+        vector<int> countArr(20001,0);
+        for(int num: arr) {
+            countArr[10000+num]++;
+        }
+        for(int i=1;i<20001;i++) {
+            countArr[i] += countArr[i-1];
+        }
+        vector<int> tempArr(arr.size(),0);
+        for(int i=arr.size()-1;i>=0;i--) {
+            tempArr[countArr[10000+arr[i]]-1] = arr[i];
+            countArr[10000+arr[i]]--;
+        }
+        for(int i=0;i<tempArr.size();i++) {
+            arr[i] = tempArr[i];
+        }
+    }
+};

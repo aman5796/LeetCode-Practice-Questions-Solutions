@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int heightChecker(vector<int>& heights) {
+        vector<int> countMap(101,0);
+        for(int h: heights) {
+            countMap[h]++;
+        }
+        for(int i=1;i<101;i++) {
+            countMap[i] += countMap[i-1];
+        }
+        int res = 0;
+        for(int i=0;i<heights.size();i++) {
+            if(!(i>=countMap[heights[i]-1] && i<=(countMap[heights[i]]-1))) {
+                res++;
+            }
+        }
+        countMap.clear();
+        return res;
+    }
+};
