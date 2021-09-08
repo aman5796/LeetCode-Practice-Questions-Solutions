@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int thirdMax(vector<int>& nums) {
+        set<int> st;
+        set<int>::reverse_iterator itr;
+        for(int num: nums) {
+            st.insert(num);
+        }
+        if(st.size()<3) {
+            itr = st.rbegin();
+            return *itr;
+        }
+        int count = 3;
+        int res;
+        for(itr=st.rbegin();itr!=st.rend();itr++) {
+            count--;
+            if(count == 0){
+                return *itr;
+            } else {
+                res = *itr;
+            }
+        }
+        st.clear();
+        return res;
+    }
+};

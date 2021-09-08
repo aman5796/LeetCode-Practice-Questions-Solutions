@@ -1,0 +1,23 @@
+class Solution {
+public:
+    string sortSentence(string s) {
+        string tempStr;
+        vector<pair<int,string>> strVector;
+        for(int i=0;i<s.length();i++) {
+            if(s[i]>=48 && s[i]<=57) {
+                strVector.push_back(make_pair(s[i]%48,tempStr));
+                tempStr.clear();
+                i++;
+            } else {
+                tempStr += s[i];
+            }
+        }
+        string res;
+        sort(strVector.begin(), strVector.end());
+        for(int i=0;i<strVector.size();i++) {
+            res += strVector[i].second + ' ';
+        }
+        res.pop_back();
+        return res;
+    }
+};

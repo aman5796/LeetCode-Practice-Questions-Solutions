@@ -1,0 +1,20 @@
+class Solution {
+public:
+    vector<int> smallerNumbersThanCurrent(vector<int>& nums) {
+        vector<int> tempArr(nums.begin(), nums.end());
+        sort(tempArr.begin(),tempArr.end());
+        map<int,int> countMap;
+        for(int i=0;i<tempArr.size();i++) {
+            if(!countMap.count(tempArr[i])) {
+                countMap[tempArr[i]] = i;
+            }
+        }
+        vector<int> res;
+        for(int i=0;i<nums.size();i++) {
+            res.push_back(countMap[nums[i]]);
+        }
+        countMap.clear();
+        tempArr.clear();
+        return res;
+    }
+};
