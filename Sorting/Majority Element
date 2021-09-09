@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        map<int,int> countMap;
+        for(int num: nums) {
+            if(countMap.count(num)>0) {
+                countMap[num]++;
+            } else {
+                countMap[num] = 1;
+            }
+        }
+        int target = floor(nums.size()/2);
+        map<int,int>::iterator itr;
+        for(itr=countMap.begin();itr!=countMap.end();itr++) {
+            if(itr->second>target) {
+                return itr->first;
+            }
+        }
+        return 0;
+    }
+};

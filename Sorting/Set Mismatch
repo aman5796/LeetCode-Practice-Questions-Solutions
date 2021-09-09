@@ -1,0 +1,15 @@
+class Solution {
+public:
+    vector<int> findErrorNums(vector<int>& nums) {
+        vector<int> countMap(nums.size(),0);
+        int diff = ((nums.size()*(nums.size()+1))/2) - accumulate(nums.begin(),nums.end(),0);
+        for(int num: nums) {
+            if(!countMap[num-1]) {
+                countMap[num-1]++;
+            } else{
+                return vector<int>{num,num+diff};
+            }
+        }
+        return vector<int>{};
+    }
+};
