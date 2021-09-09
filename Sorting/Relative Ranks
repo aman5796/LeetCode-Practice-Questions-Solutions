@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<string> findRelativeRanks(vector<int>& score) {
+        vector<int> rankArr(1000002,0);
+        for(int sc: score) {
+            rankArr[sc]++;
+        }
+        for(int i=1000000;i>=0;i--) {
+            rankArr[i] += rankArr[i+1];
+        }
+        vector<string> res;
+        for(int sc: score) {
+            if(rankArr[sc]==1) {
+                res.push_back("Gold Medal");
+            } else if(rankArr[sc]==2) {
+                res.push_back("Silver Medal");
+            } else if(rankArr[sc]==3) {
+                res.push_back("Bronze Medal");
+            } else {
+                res.push_back(to_string(rankArr[sc]));
+            }
+        }
+        return res;
+    }
+};
