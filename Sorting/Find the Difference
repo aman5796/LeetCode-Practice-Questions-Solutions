@@ -1,0 +1,12 @@
+class Solution {
+public:
+    char findTheDifference(string s, string t) {
+        int xor1 = accumulate(s.begin(),s.end(),0,xorIp);
+        int xor2 = accumulate(t.begin(),t.end(),0,xorIp);
+        return xor1^xor2;
+    }
+    
+    static int xorIp(int a, int b) {
+        return a^b;
+    }
+};
