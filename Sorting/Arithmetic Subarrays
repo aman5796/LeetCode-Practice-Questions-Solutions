@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<bool> checkArithmeticSubarrays(vector<int>& nums, vector<int>& l, vector<int>& r) {
+        vector<bool> res;
+        int minElement, maxElement;
+        bool flag;
+        for(int i=0;i<l.size();i++) {
+            flag = true;
+            vector<bool> hashArr(200001,false);
+            maxElement = INT_MIN;
+            minElement = INT_MAX;
+            for(int j=l[i];j<=r[i];j++) {
+                if(nums[j]>maxElement) {
+                    maxElement = nums[j];
+                }
+                if(nums[j]<minElement) {
+                    minElement = nums[j];
+                }
+            }
+            int d = (maxElement-minElement)/(r[i]-l[i]);
+            for(int j=l[i];j<=r[i];j++) {
+                hashArr[100000+nums[j]] = true;
+            }
+            for(int j=minElement;j<=maxElement;j+=(d)?d:1) {
+                if(!hashArr[100000+j]) {
+                    flag = false;
+                }
+            }
+            res.push_back(flag);
+        }
+        return res;
+    }
+};
