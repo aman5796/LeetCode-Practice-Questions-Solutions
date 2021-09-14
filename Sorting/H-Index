@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int hIndex(vector<int>& citations) {
+        vector<int> suffixArr(citations.size()+1,0);
+        for(int ctn: citations) {
+            if(ctn>citations.size()) {
+                suffixArr[citations.size()]++;
+            } else {
+                suffixArr[ctn]++;
+            }
+        }
+        if(suffixArr[citations.size()]>=citations.size()) {
+            return citations.size();
+        }
+        for(int i=suffixArr.size()-2;i>=0;i--) {
+            suffixArr[i] += suffixArr[i+1];
+            if(suffixArr[i]>=i) {
+                return i;
+            }
+        }
+        return (citations.size()==1 && citations[0])?1:(citations.size()>1?1:0);
+    }
+};
