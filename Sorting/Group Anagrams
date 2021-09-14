@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> res;
+        string orignalString;
+        map<string,vector<string>> mp;
+        map<string,vector<string>>::iterator itr;
+        for(string str: strs) {
+            orignalString = str;
+            sort(str.begin(),str.end());
+            if(mp.count(str)>0) {
+                mp[str].push_back(orignalString);
+            } else {
+                mp.insert({str,{orignalString}});
+            }
+        }
+        for(itr=mp.begin();itr!=mp.end();itr++) {
+            res.push_back(itr->second);
+        }
+        return res;
+    }
+};
