@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        sort(intervals.begin(),intervals.end());
+        vector<vector<int>> res;
+        vector<int> tempRes{-1,-1};
+        for(int i=0;i<intervals.size()-1;i++) {
+            if(tempRes[0]==-1 && tempRes[1]==-1 && intervals[i][1]>=intervals[i+1][0]) {
+                tempRes = {intervals[i][0],max(intervals[i][1],intervals[i+1][1])};
+            } else if(tempRes[0]!=-1 && tempRes[1]!=-1 && tempRes[1]>=intervals[i+1][0]) {
+                tempRes = {tempRes[0],max(tempRes[1],intervals[i+1][1])};
+            } else {
+                if(tempRes[0]!=-1 && tempRes[1]!=-1) {
+                    res.push_back(tempRes);
+                    tempRes = {-1,-1};
+                } else {
+                    res.push_back(intervals[i]);
+                }
+            }
+        }
+        if(tempRes[0]==-1 && tempRes[1]==-1) {
+            res.push_back(intervals[intervals.size()-1]);
+        } else {
+            res.push_back(tempRes);
+        }
+        tempRes.clear();
+        return res;
+    }
+};
