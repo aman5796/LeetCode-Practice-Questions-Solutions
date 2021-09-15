@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int finalSum = 0;
+    
+    int subsetXORSum(vector<int>& nums) {
+        xorSum(nums,0,0);
+        return finalSum;
+    }
+    
+    void xorSum(vector<int> arr, int index, int xorTillNow) {
+        if(index==arr.size()) {
+            finalSum += xorTillNow;
+        } else{
+            xorSum(arr,index+1,xorTillNow^arr[index]);
+            xorSum(arr,index+1,xorTillNow);
+        }
+
+    }
+};
