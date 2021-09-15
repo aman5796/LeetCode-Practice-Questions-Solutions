@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<string> res;
+    
+    vector<string> readBinaryWatch(int turnedOn) {
+        vector<int> timeArr{8,4,2,1,32,16,8,4,2,1};
+        generateTime(timeArr,turnedOn,0,0,0);
+        return res;
+    }
+    
+    void generateTime(vector<int> arr, int n, int indx, int hour, int min) {
+        if(n==0) {
+            string str;
+            if(hour<=11 && min<=59) {
+                str += to_string(hour)+":";
+                str += (min>=10)?to_string(min):("0"+to_string(min));
+            }
+            if(str!="")
+            res.push_back(str);
+        }
+        else {
+            if(indx<4) {
+                generateTime(arr,n,indx+1,hour,min);
+                generateTime(arr,n-1,indx+1,hour+arr[indx],min);
+            } else if(indx<arr.size()) {
+                generateTime(arr,n,indx+1,hour,min);
+                generateTime(arr,n-1,indx+1,hour,min+arr[indx]);
+            }
+        }
+    }
+};
