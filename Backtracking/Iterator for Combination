@@ -1,0 +1,39 @@
+class CombinationIterator {
+public:
+    set<string> res;
+    CombinationIterator(string characters, int combinationLength) {
+        sort(characters.begin(),characters.end());
+        generateString(characters,0,combinationLength,"",0);
+    }
+    
+    string next() {
+        set<string>::iterator itr;
+        itr = res.begin();
+        string rVal = *itr;
+        res.erase(itr);
+        return rVal;
+    }
+    
+    bool hasNext() {
+        return (res.size());
+    }
+    
+    void generateString(string chars, int currLen, int maxLen, string str, int index) {
+        if(currLen==maxLen) {
+            if(str!="") {
+                res.insert(str);
+            }
+        }
+        else if(index<chars.length()) {
+            generateString(chars,currLen,maxLen,str,index+1);
+            generateString(chars,currLen+1,maxLen,str+chars[index],index+1);
+        }
+    }
+};
+
+/**
+ * Your CombinationIterator object will be instantiated and called as such:
+ * CombinationIterator* obj = new CombinationIterator(characters, combinationLength);
+ * string param_1 = obj->next();
+ * bool param_2 = obj->hasNext();
+ */
