@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<vector<int>> paths;
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+        backTrack(graph,0,vector<int>{0});
+        return paths;
+    }
+    
+    void backTrack(vector<vector<int>> arr, int currentNode, vector<int> path) {
+        if(currentNode==arr.size()-1) {
+            paths.push_back(path);
+        }
+        else if(arr[currentNode].size()!=0) {
+            for(int node: arr[currentNode]){
+                path.push_back(node);
+                backTrack(arr,node,path);
+                path.pop_back();
+            }
+        }
+    }
+};
