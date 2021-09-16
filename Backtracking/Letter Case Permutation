@@ -1,0 +1,29 @@
+class Solution {
+public:
+    set<string> res;
+    vector<string> letterCasePermutation(string s) {
+        generateString(0,s,s.length());
+        vector<string> result(res.begin(),res.end());
+        res.clear();
+        return result;
+    }
+    
+    void generateString(int index, string str, int n) {
+        res.insert(str);
+        if(index<n) { 
+            if(str[index]-'a'>=0 && str[index]-'a'<=25) {
+                generateString(index+1,str,n);
+                str[index] = 65+(str[index]-'a');
+                generateString(index+1,str,n);
+            }
+            else if(str[index]-'A'>=0 && str[index]-'A'<=25) {
+                generateString(index+1,str,n);
+                str[index] = 97+(str[index]-'A');
+                generateString(index+1,str,n);
+            }
+            else{
+                generateString(index+1,str,n);
+            }
+        }
+    }
+};
