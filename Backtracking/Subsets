@@ -1,0 +1,20 @@
+class Solution {
+public:
+    vector<vector<int>> res;
+    vector<vector<int>> subsets(vector<int>& nums) {
+        generateSubsets(nums,0,vector<int>{});
+        return res;
+    }
+    
+    void generateSubsets(vector<int> nums, int index, vector<int> arr) {
+        if(index==nums.size()) {
+            res.push_back(arr);
+        }
+        else if(index<nums.size()) {
+            generateSubsets(nums,index+1,arr);
+            arr.push_back(nums[index]);
+            generateSubsets(nums,index+1,arr);
+            arr.pop_back();
+        }
+    }
+};
