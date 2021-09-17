@@ -1,0 +1,36 @@
+class Solution {
+public:
+    vector<string> res;
+    vector<string> generateParenthesis(int n) {
+        permutations(n,0,"");
+        return res;
+    }
+    
+    void permutations(int n, int currLen, string str) {
+        if(currLen==(2*n) && str!="") {
+            if(isCorrect(str)) {
+                res.push_back(str);
+            }
+        }
+        else if(currLen<(2*n)) {
+            permutations(n,currLen+1,str+"(");
+            permutations(n,currLen+1,str+")");
+        }
+    }
+    
+    bool isCorrect(string str) {
+        stack<char> st;
+        for(int i=0;i<str.length();i++) {
+            if(str[i]=='(') st.push('(');
+            else {
+                if(st.empty()) {
+                    st.push(')');
+                    break;
+                } else{
+                    st.pop();
+                }
+            }
+        }
+        return (st.empty());
+    }
+};
