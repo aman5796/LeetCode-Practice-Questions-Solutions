@@ -1,0 +1,40 @@
+class Solution {
+public:
+    set<string> res;
+    string getHappyString(int n, int k) {
+        if(k>pow(3,n)) return "";
+        generateString(n,"",0,0);
+        if(k>res.size()) return "";
+        else {
+            set<string>::iterator itr;
+            int count = 0;
+            for(itr=res.begin();itr!=res.end();itr++) {
+                count++;
+                if(count==k){
+                    return *itr;
+                }
+            }
+        }
+        return "";
+    }
+    
+    void generateString(int n, string str, int curLen, int count) {
+        if(curLen==n) {
+            if(str!="") {
+                res.insert(str);
+            }
+                
+        }
+        else if(count<pow(3,n)) {
+            string s = "abc";
+            for(int i=0;i<s.length();i++) {
+                if(str.length()==0) {
+                    generateString(n,s[i]+str,curLen+1,++count);
+                }
+                else if(s[i]!=str[str.size()-1]) {
+                    generateString(n,str+s[i],curLen+1,++count);
+                }
+            }
+        }
+    }
+};
