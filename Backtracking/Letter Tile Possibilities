@@ -1,0 +1,28 @@
+class Solution {
+public:
+    unordered_set<string> res;
+    int numTilePossibilities(string tiles) {
+        vector<bool> isUsed(tiles.length(),false);
+        permutations(tiles,0,"",isUsed);
+        int n = res.size();
+        res.clear();
+        return n;
+    }
+    
+    void permutations(string tiles, int n, string str,vector<bool> isUsed) {
+        if(n<=tiles.length()) {
+            if(str!="") {
+                res.insert(str);
+            }
+            for(int i=0;i<tiles.length();i++) {
+                if(!isUsed[i]) {
+                    isUsed[i] = true;
+                    str.push_back(tiles[i]);
+                    permutations(tiles,n+1,str,isUsed);
+                    str.pop_back();
+                    isUsed[i]=false;
+                }
+            }
+        }
+    }
+};
