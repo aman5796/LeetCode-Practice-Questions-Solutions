@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int getMaximumGold(vector<vector<int>>& grid) {
+        int res = 0;
+        vector<vector<bool>> visited(grid.size(),vector<bool>(grid[0].size(),false));
+        for(int i=0;i<grid.size();i++) {
+            for(int j=0;j<grid[0].size();j++) {
+                if(grid[i][j] != 0) {
+                    res = max(res,maxGold(i,j,grid,visited));
+                }
+            }
+        }
+        return res;
+    }
+    
+    int maxGold(int i,int j, vector<vector<int>>& grid, vector<vector<bool>>& visited) {
+        if(i<0 || i>=grid.size() || j<0 || j>=grid[0].size() || visited[i][j] || grid[i][j] == 0) {
+            return 0;
+        }
+        visited[i][j] = true;
+        int sum = grid[i][j]+max({maxGold(i+1,j,grid,visited),maxGold(i-1,j,grid,visited),maxGold(i,j-1,grid,visited),maxGold(i,j+1,grid,visited)});
+        visited[i][j] = false;
+        return sum;
+    }
+};
