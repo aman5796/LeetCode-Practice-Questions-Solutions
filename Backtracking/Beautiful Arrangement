@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int res=0;
+    int countArrangement(int n) {
+        vector<int> arr{};
+        vector<bool> isUsed(n,false);
+        res = 0;
+        return numArrangements(n,arr,isUsed);
+    }
+    
+    int numArrangements(int n, vector<int>& arr, vector<bool>& isUsed) {
+        if(arr.size()==n) {
+            res++;
+        }
+        else if(arr.size()<n) {
+            for(int i=1;i<=n;i++) {
+                if(!isUsed[i-1] && (i%(arr.size()+1)==0 || (arr.size()+1)%i==0)) {
+                    isUsed[i-1] = true;
+                    arr.push_back(i);
+                    numArrangements(n,arr,isUsed);
+                    arr.pop_back();
+                    isUsed[i-1] = false;
+                }
+            }
+        }
+        return res;
+    }
+};
