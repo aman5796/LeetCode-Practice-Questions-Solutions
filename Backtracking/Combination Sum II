@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        set<vector<int>> res;
+        int arrSum = accumulate(candidates.begin(),candidates.end(),0);
+        if(arrSum<target) {
+            return vector<vector<int>> {};
+        }
+        sort(candidates.begin(),candidates.end());
+        generateSol(candidates,target,0,0,vector<int>{},res);
+        vector<vector<int>> result(res.begin(),res.end());
+        return result;
+    }
+    
+    void generateSol(vector<int>& candidates, int target, int sum, int index, vector<int> arr, set<vector<int>>& res) {
+        if(sum==target) {
+            res.insert(arr);
+        }
+        else if(index<candidates.size() && sum<target) {
+            for(int i=index;i<candidates.size();i++) {
+                if(i>index && candidates[i]==candidates[i-1]) continue;
+                if(candidates[i]+sum<=target) {
+                    arr.push_back(candidates[i]);
+                    generateSol(candidates,target,sum+candidates[i],i+1,arr,res);
+                    arr.pop_back();
+                }
+            }
+        }
+    }
+};
