@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<int> splitIntoFibonacci(string num) {
+        if(num.length()<3) return vector<int> {};
+        vector<int> arr{};
+        return fibArr(num,0,arr);
+    }
+    
+    vector<int> fibArr(string num, int start, vector<int>& arr) {
+        if(start==num.length()) {
+            if(arr.size()<3) return vector<int> {};
+            for(int i=0;i<arr.size()-2;i++) {
+                if(arr[i]+arr[i+1]!=arr[i+2]) return vector<int> {};
+            }
+            return arr;
+        }
+        else if(start<num.length()) {
+            long generatedNum;
+            for(int i=start;i<num.length();i++) {
+                string numSubStr = num.substr(start,i-start+1);
+                if(numSubStr.length()>1 && numSubStr[0]=='0') break;
+                try{
+                    generatedNum = stol(numSubStr);
+                } catch(...) {
+                    return vector<int> {};
+                }
+                if(generatedNum>INT_MAX || (arr.size()>1 && arr.back()>INT_MAX-arr[arr.size()-2]))  return vector<int> {};
+                if(arr.size()<2 || (arr.back()+arr[arr.size()-2]==generatedNum)) {
+                    arr.push_back(generatedNum);
+                    if(fibArr(num,i+1,arr).size()>0) return arr;
+                    arr.pop_back();
+                }
+            }
+        }
+        return vector<int> {};
+    }
+};
