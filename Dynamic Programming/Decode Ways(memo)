@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<int> dp;
+    int numDecodings(string s) {
+        for(int i=0;i<101;i++) {
+            dp.push_back(-1);
+        }
+        return numWays(s,0);
+    }
+    
+    int numWays(string s, int index) {
+        if(index>=s.length()) {
+            return 1;
+        }
+        if(dp[index]!=-1) {
+            return dp[index];
+        }
+        int oneLen=0, twoLen=0;
+        if(s[index]!='0') {
+            oneLen = numWays(s,index+1);
+        }
+        if(index+1<s.length()) {
+            int number = stoi(s.substr(index,2));
+            if(number>=10 && number<=26) {
+                twoLen = numWays(s,index+2);
+            }
+        }
+        return dp[index] = (oneLen+twoLen);
+    }
+};
