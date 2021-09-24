@@ -1,3 +1,4 @@
+//thinking process: max two digit number can be formed
 class Solution {
 public:
     vector<int> dp;
