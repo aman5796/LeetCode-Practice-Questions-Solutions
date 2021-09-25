@@ -1,0 +1,30 @@
+//logic: piche se todoh
+class Solution {
+public:
+    vector<int> dp;
+    int coinChange(vector<int>& coins, int amount) {
+        if(amount==0) return 0;
+        for(int i=0;i<=amount;i++) {
+            dp.push_back(0);
+        }
+        return minNums(coins,amount);
+    }
+    int minNums(vector<int>& arr, int n) {
+        if(n<0) {
+            return -1;
+        }
+        if(n==0) {
+            return 0;
+        }
+        if(dp[n]!=0) return dp[n];
+        int minCoins = INT_MAX;
+        for(int i=0;i<arr.size();i++) {
+            int coinReq = 1+minNums(arr,n-arr[i]);
+            if(coinReq!=0 && coinReq<minCoins) {
+                minCoins = coinReq;
+            }
+        }
+        dp[n] = (minCoins==INT_MAX)?-1:minCoins;
+        return dp[n];
+    }
+};
