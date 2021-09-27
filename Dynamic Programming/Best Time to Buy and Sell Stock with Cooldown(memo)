@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<vector<int>> dp{{},{}};
+    int maxProfit(vector<int>& prices) {
+        for(int i=0;i<prices.size();i++) {
+            dp[0].push_back(-1);
+            dp[1].push_back(-1);
+        }
+        return maxProfit(prices,0,false);
+    }
+    
+    int maxProfit(vector<int>& prices, int index, bool sell) {
+        if(index>=prices.size()) {
+            return 0;
+        }
+        if(sell && dp[0][index]!=-1) return dp[0][index];
+        if(!sell && dp[1][index]!=-1) return dp[1][index];
+        if(sell) {
+            return dp[0][index] = max(((prices[index])+maxProfit(prices,index+2,false)),maxProfit(prices,index+1,true));
+        }
+        else if(!sell) {
+            return dp[1][index] = max(maxProfit(prices,index+1,true)-prices[index], maxProfit(prices,index+1,false));
+        }
+        return 0;
+    }
+};
