@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int findTargetSumWays(vector<int>& nums, int target) {
+        int indexOfZero = accumulate(nums.begin(),nums.end(),0);
+        if(target>indexOfZero || target<(-indexOfZero)) return 0;
+        vector<vector<int>> dp(nums.size(),vector<int>(2002,0));
+        dp[0][indexOfZero+nums[0]] = 1;
+        dp[0][indexOfZero-nums[0]] += 1;
+        for(int i=1;i<nums.size();i++) {
+            for(int j=(-indexOfZero);j<=indexOfZero;j++) {
+                if(j+indexOfZero-nums[i]>=0) {
+                    dp[i][j+indexOfZero] += dp[i-1][j+indexOfZero-nums[i]]; 
+                }
+                if(j+indexOfZero+nums[i]<=((2*indexOfZero)+1)) {
+                    dp[i][j+indexOfZero] += dp[i-1][j+indexOfZero+nums[i]];
+                }
+            }
+        }
+        return dp[nums.size()-1][indexOfZero+target];
+    }
+};
