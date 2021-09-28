@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        vector<vector<int>> countMap(2,vector<int>(strs.size()));
+        for(int i=0;i<strs.size();i++) {
+            int zeroCount=0, oneCount=0;
+            for(char ch: strs[i]) {
+                if(ch=='0') {
+                    zeroCount++;
+                } else {
+                    oneCount++;
+                }
+            }
+            countMap[0][i] = zeroCount;
+            countMap[1][i] = oneCount;
+        }
+        vector<vector<vector<int>>> dp(m+1,vector<vector<int>>(n+1,vector<int>(strs.size()+1,0)));
+        for(int i=0;i<=m;i++) {
+            for(int j=0;j<=n;j++) {
+                for(int k=1;k<=strs.size();k++) {
+                    if(i-countMap[0][k-1]>=0 && j-countMap[1][k-1]>=0) {
+                        dp[i][j][k] = max(1+dp[i-countMap[0][k-1]][j-countMap[1][k-1]][k-1],dp[i][j][k-1]);
+                    }
+                    else{
+                        dp[i][j][k] = dp[i][j][k-1];
+                    }
+                }
+            }
+        }
+        return dp[m][n][strs.size()];
+    }
+};
