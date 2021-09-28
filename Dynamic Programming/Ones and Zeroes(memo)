@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        vector<vector<int>> countMap(2,vector<int>(strs.size()));
+        for(int i=0;i<strs.size();i++) {
+            int zeroCount=0, oneCount=0;
+            for(char ch: strs[i]) {
+                if(ch=='0') {
+                    zeroCount++;
+                } else {
+                    oneCount++;
+                }
+            }
+            countMap[0][i] = zeroCount;
+            countMap[1][i] = oneCount;
+        }
+        vector<vector<vector<int>>> dp(101,vector<vector<int>>(101,vector<int>(strs.size(),0)));
+        return getMaxLen(countMap,m,n,0,dp);
+    }
+    
+    int getMaxLen(vector<vector<int>>& arr, int m, int n, int index, vector<vector<vector<int>>>& dp) {
+        if(index==arr[0].size()) {
+            return 0;
+        }
+        if(dp[m][n][index]!=0) return dp[m][n][index];
+        if(m-arr[0][index]>=0 && n-arr[1][index]>=0) {
+            return dp[m][n][index] = max(1+getMaxLen(arr,m-arr[0][index],n-arr[1][index],index+1,dp),getMaxLen(arr,m,n,index+1,dp));
+        }
+        else {
+            return dp[m][n][index] = getMaxLen(arr,m,n,index+1,dp);
+        }
+        return 0;
+    }
+};
