@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<vector<int>> dp(nums.size()+1,vector<int>(nums.size(),-1));
+        return lis(nums,0,-1,dp);
+    }
+    
+    int lis(vector<int>& arr,int index, int prev, vector<vector<int>>& dp) {
+        if(index==arr.size()) {
+            return 0;
+        }
+        if(dp[prev+1][index]!=-1) return dp[prev+1][index];
+        int lenIfInclude=INT_MIN, lenIfExclude=INT_MIN;
+        if(prev==-1 || (prev!=-1 && arr[index]>arr[prev])) {
+            lenIfInclude = 1+lis(arr,index+1,index,dp);
+        }
+        lenIfExclude = lis(arr,index+1,prev,dp);
+        return dp[prev+1][index] = max(lenIfInclude,lenIfExclude);
+    }
+};
