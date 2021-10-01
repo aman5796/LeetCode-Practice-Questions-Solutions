@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int countVowelStrings(int n) {
+        vector<int> arr = {1,2,3,4,5};
+        vector<vector<int>> dp(5,vector<int>(n+1,-1)); 
+        return numWays(arr,0,n,dp);
+    }
+    
+    int numWays(vector<int>& arr, int index, int n, vector<vector<int>>& dp) {
+        if(n==0) {
+            return 1;
+        }
+        if(dp[index][n]!=-1) return dp[index][n];
+        int ways = 0;
+        for(int i=index;i<arr.size();i++) {
+            ways += numWays(arr,i,n-1,dp);
+        }
+        return dp[index][n] = ways;
+    }
+};
