@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        vector<int> dp(nums.size(),-1);
+        return canReach(nums,0,nums.size()-1,dp);
+    }
+    
+    bool canReach(vector<int>& arr, int curIndex, int lastIndex, vector<int>& dp) {
+        if(curIndex==lastIndex) {
+            return true;
+        }
+        if(dp[curIndex]!=-1) return dp[curIndex];
+        for(int i=1;i<=arr[curIndex];i++) {
+            if(curIndex+i<=lastIndex) {
+                if(canReach(arr,curIndex+i,lastIndex,dp)) {
+                    return dp[curIndex] = true;
+                }
+            }
+        }
+        return dp[curIndex] = false;
+    }
+};
