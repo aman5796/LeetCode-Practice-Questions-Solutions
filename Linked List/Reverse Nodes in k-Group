@@ -1,0 +1,74 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        if(head==NULL) {
+            return NULL;
+        }
+        int listLen = getLength(head);
+        if(listLen<k || k==1) {
+            return head;
+        }
+        int cnt = 1;
+        bool firstReversal = false;
+        ListNode* ptr1 = head;
+        ListNode* ptr2 = head;
+        ListNode* ptr3 = head;
+        ListNode* lastEnd = NULL;
+        ListNode* refToNewHead = head;
+        while(cnt<k && ptr1!=NULL && ptr1->next!=NULL) {
+            ptr2 = ptr1->next;
+            ptr1->next = ptr1->next->next;
+            ptr2->next = ptr3;
+            cnt++;
+            if(cnt==k) {
+                listLen -= cnt;
+                if(!firstReversal) {
+                    firstReversal = true;
+                    refToNewHead = ptr2;
+                }
+                if(listLen>=k) {
+                    cnt = 1;
+                    if(lastEnd==NULL) {
+                        lastEnd = ptr1;
+                    }
+                    else {
+                        lastEnd->next = ptr2;
+                        lastEnd = ptr1;
+                    }
+                    ptr1 = ptr1->next;
+                    ptr2 = ptr1;
+                }
+                else {
+                    if(lastEnd!=NULL) {
+                        lastEnd->next = ptr2;
+                    }
+                }
+            }
+            ptr3 = ptr2;
+        }
+        return refToNewHead;
+    }
+    
+    int getLength(ListNode* head) {
+        if(head==NULL) {
+            return -1;
+        }
+        ListNode* ptr = head;
+        int len = 0;
+        while(ptr!=NULL) {
+            ptr = ptr->next;
+            len++;
+        }
+        return len;
+    }
+};
