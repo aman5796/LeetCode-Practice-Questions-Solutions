@@ -1,0 +1,86 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* getMid(ListNode* ptr) {
+        if(ptr==NULL || ptr->next==NULL) {
+            return ptr;
+        }
+        ListNode* fptr = ptr->next;
+        while(fptr!=NULL && fptr->next!=NULL) {
+            fptr = fptr->next->next;
+            ptr = ptr->next;
+        }
+        return ptr;
+    }
+    
+    ListNode* sortList(ListNode* head) {
+        if(head==NULL || head->next==NULL) {
+            return head;
+        }
+        ListNode* mid = getMid(head);
+        ListNode* right = mid->next;
+        mid->next = NULL;
+        return merge(sortList(head),sortList(right));
+    }
+    
+    ListNode* merge(ListNode* lst1, ListNode* lst2) {
+        ListNode* res = NULL;
+        ListNode* actualRes = res;
+        while(lst1!=NULL && lst2!=NULL) {
+            if(lst1->val<lst2->val) {
+                if(res==NULL) {
+                    res = lst1;
+                    actualRes = res;
+                }
+                else {
+                    res->next = lst1;
+                    res = res->next;
+                }
+                lst1 = lst1->next;
+            }
+            else {
+                if(res==NULL) {
+                    res = lst2;
+                    actualRes = res;
+                }
+                else {
+                    res->next = lst2;
+                    res = res->next;
+                }
+                lst2 = lst2->next;
+            }
+        }
+        while(lst1!=NULL) {
+            if(res==NULL) {
+                res = lst1;
+                actualRes = res;
+            }
+            else {
+                res->next = lst1;
+                res = res->next;
+            }
+            lst1 = lst1->next;
+        }
+        while(lst2!=NULL) {
+            if(res==NULL) {
+                res = lst2;
+                actualRes = res;
+            }
+            else {
+                res->next = lst2;
+                res = res->next;
+            }
+            lst2 = lst2->next;
+        }
+        return actualRes;
+    }
+};
