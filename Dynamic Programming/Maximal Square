@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        int maxLen = 0;
+        vector<vector<int>> arr(matrix.size(),vector<int>(matrix[0].size(),0));
+        for(int i=0;i<matrix.size();i++) {
+            for(int j=0;j<matrix[0].size();j++) {
+                arr[i][j] = (matrix[i][j]%48);
+            }
+        }
+        for(int i=0;i<arr.size();i++) {
+            for(int j=0;j<arr[0].size();j++) {
+                if(i!=0 && j!=0) {
+                    if(arr[i-1][j]!=0 && arr[i][j-1]!=0 && arr[i-1][j-1]!=0 && arr[i][j]!=0) {
+                        arr[i][j] = min({arr[i][j-1],arr[i-1][j],arr[i-1][j-1]})+1;
+                        maxLen = max(maxLen,arr[i][j]);
+                    }
+                    else {
+                        maxLen = max(maxLen,arr[i][j]);
+                    }
+                }
+                else {
+                    maxLen = max(maxLen,arr[i][j]);
+                }
+            }
+        }
+        return (maxLen*maxLen);
+    }
+};
