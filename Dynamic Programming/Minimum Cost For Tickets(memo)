@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int mincostTickets(vector<int>& days, vector<int>& costs) {
+        vector<int> dp(days.back()+1,0);
+        return minCost(days, costs, 0, dp);
+    }
+    
+    int minCost(vector<int>& days, vector<int>& costs, int upTill, vector<int>& dp) {
+        if(upTill>=days.back()) {
+            return 0;
+        }
+        if(dp[upTill]!=0) return dp[upTill];
+        int upB = *upper_bound(days.begin(),days.end(),upTill);
+        int cst1 = costs[0] + minCost(days, costs, upB, dp);
+        int cst2 = costs[1] + minCost(days, costs, upB+6, dp);
+        int cst3 = costs[2] + minCost(days, costs, upB+29, dp);
+        return dp[upTill] = min({cst1,cst2,cst3});
+    }
+};
