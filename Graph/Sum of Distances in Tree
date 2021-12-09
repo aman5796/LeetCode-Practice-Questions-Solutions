@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<int> res, subGraph;
+    
+    void getSubgraph(vector<vector<int>>& graph, int cur, int parent) {
+        for(auto node: graph[cur]) {
+            if(node==parent) continue;
+            getSubgraph(graph, node, cur);
+            subGraph[cur] += subGraph[node];
+            res[cur] += res[node] + subGraph[node];
+        }
+        subGraph[cur] += 1;
+    }
+    
+    void getDistance(vector<vector<int>>& graph, int cur, int parent) {
+        for(auto node: graph[cur]) {
+            if(node==parent) continue;
+            //subGraph[cur] += subGraph[node];
+            res[node] = res[cur] - subGraph[node] + subGraph.size() - subGraph[node];
+            getDistance(graph, node, cur);
+        }
+    }
+    
+    vector<int> sumOfDistancesInTree(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> graph;
+        graph.resize(n);
+        for(int i=0;i<edges.size();i++) {
+            graph[edges[i][0]].push_back(edges[i][1]);
+            graph[edges[i][1]].push_back(edges[i][0]);
+        }
+        res.resize(n);
+        subGraph.resize(n);
+        getSubgraph(graph,0,-1);
+        getDistance(graph,0,-1);
+        return res;
+    }
+};
