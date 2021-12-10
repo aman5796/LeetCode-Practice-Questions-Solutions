@@ -1,0 +1,48 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        if(root==NULL) {
+            return {};
+        }
+        vector<vector<int>> res;
+        map<int, vector<int>> gMap;
+        queue<pair<TreeNode*, pair<int,int>>> q;
+        q.push({root,{0,0}});
+        map<int,vector<int>> localMap;
+        while(!q.empty()) {
+            int len = q.size();
+            localMap.clear();
+            for(int i=0;i<len;i++) {
+                localMap[q.front().second.second].push_back(q.front().first->val);
+                if(q.front().first->left!=NULL) {
+                    q.push({q.front().first->left, {q.front().second.first+1,q.front().second.second-1}});
+                }
+                if(q.front().first->right!=NULL) {
+                    q.push({q.front().first->right, {q.front().second.first+1,q.front().second.second+1}});
+                }
+                q.pop();
+            }
+            for(auto i: localMap) {
+                sort(i.second.begin(), i.second.end());
+                for(auto j: i.second) {
+                    gMap[i.first].push_back(j);
+                }
+            }
+        }
+        for(auto i: gMap) {
+            res.push_back(i.second);
+        }
+        return res;
+    }
+};
