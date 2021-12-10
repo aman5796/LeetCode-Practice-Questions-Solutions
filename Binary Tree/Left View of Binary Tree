@@ -1,0 +1,26 @@
+int level;
+vector<int> res;
+
+void preorder(Node* root, int innerLevel) {
+    if(root==NULL) {
+        return;
+    }
+    if(innerLevel > level) {
+        res.push_back(root->data);
+        level = innerLevel;
+    }
+    preorder(root->left, innerLevel+1);
+    preorder(root->right, innerLevel+1);
+}
+
+vector<int> leftView(Node *root)
+{
+    if(root==NULL) {
+        return {};
+    }
+    res.clear();
+    level = 0;
+    res.push_back(root->data);
+    preorder(root,0);
+    return res;
+}
