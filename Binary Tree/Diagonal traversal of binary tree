@@ -1,0 +1,25 @@
+map<int,vector<int>> mp;
+void reverseInorder(Node* root, int slope) {
+    if(root!=NULL) {
+        reverseInorder(root->right, slope);
+        mp[slope].push_back(root->data);
+        reverseInorder(root->left,slope+1);
+    }
+}
+
+vector<int> diagonal(Node *root)
+{
+   // your code here
+   mp.clear();
+   if(root==NULL) {
+       return {};
+   }
+   reverseInorder(root,0);
+   vector<int> res;
+   for(auto i: mp) {
+       for(int j=i.second.size()-1;j>=0;j--) {
+           res.push_back(mp[i.first][j]);
+       }
+   }
+   return res;
+}
