@@ -1,0 +1,53 @@
+class Solution {
+public:
+    vector<int> res;
+    void leftNodes(Node* root) {
+        if(root!=NULL) {
+            if(root->left!=NULL) {
+                res.push_back(root->data);
+                leftNodes(root->left);
+            }
+            else if(root->right!=NULL) {
+                res.push_back(root->data);
+                leftNodes(root->right);
+            }
+        }
+    }
+    
+    void rightNodes(Node* root) {
+        if(root!=NULL) {
+            if(root->right!=NULL) {
+                rightNodes(root->right);
+                res.push_back(root->data);
+            }
+            else if(root->left!=NULL) {
+                rightNodes(root->left);
+                res.push_back(root->data);
+            }
+        }
+    }
+    
+    void leavesNodes(Node* root) {
+        if(root!=NULL) {
+            leavesNodes(root->left);
+            if(!(root->left) && !(root->right)) {
+                res.push_back(root->data);
+            }
+            leavesNodes(root->right);
+        }
+    }
+    
+    vector <int> boundary(Node *root)
+    {
+        if(root==NULL) {
+            return {};
+        }
+        res.clear();
+        res.push_back(root->data);
+        leftNodes(root->left);
+        leavesNodes(root->left);
+        leavesNodes(root->right);
+        rightNodes(root->right);
+        return res;
+    }
+};
