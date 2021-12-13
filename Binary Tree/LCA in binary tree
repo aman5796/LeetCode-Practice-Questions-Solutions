@@ -1,0 +1,37 @@
+class Solution
+{
+    public:
+    //Function to return the lowest common ancestor in a Binary Tree.
+    Node* getLca(Node* root, int a, int b) {
+        if(root==NULL) {
+            return NULL;
+        }
+        if(root->data==a || root->data==b) {
+            return root;
+        }
+        
+        Node* leftTree = getLca(root->left,a,b);
+        Node* rightTree = getLca(root->right,a,b);
+        if(leftTree!=NULL && rightTree!=NULL) {
+            return root;
+        }
+        else if(leftTree==NULL && rightTree==NULL) {
+            return NULL;
+        }
+        else {
+            return (leftTree!=NULL)?leftTree:rightTree;
+        }
+    }
+    
+    Node* lca(Node* root ,int n1 ,int n2 )
+    {
+       //Your code here 
+       Node* nullRes = new Node();
+       nullRes->data = -1;
+       if(root==NULL) {
+           return nullRes;
+       }
+       Node* res = getLca(root, n1,n2);
+       return (res!=NULL)?res:nullRes;
+    }
+};
