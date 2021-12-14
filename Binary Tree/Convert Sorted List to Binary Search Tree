@@ -1,0 +1,54 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* sortedListToBST(ListNode* head) {
+        if(head==NULL) {
+            return NULL;
+        }
+        return convertToTree(head,NULL);
+    }
+    
+    TreeNode* convertToTree(ListNode* head, ListNode* tail) {
+        if(head==tail) {
+            return NULL;
+        }
+        TreeNode* root = new TreeNode();
+        ListNode* midNode = getMid(head, tail);
+        root->val = midNode->val;
+        if(head!=tail) {
+            root->left = convertToTree(head, midNode);
+            root->right = convertToTree(midNode->next,tail);
+        }
+        return root;
+    }
+    
+    ListNode* getMid(ListNode* head, ListNode* tail) {
+        ListNode* fst = head;
+        ListNode* slw = head;
+        while(fst!=NULL && fst->next!=tail && fst!=tail) {
+            fst = fst->next->next;
+            slw = slw->next;
+        }
+        return slw;
+    }
+};
