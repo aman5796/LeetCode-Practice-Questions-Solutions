@@ -1,0 +1,37 @@
+class Solution{
+  public:
+  
+    map<Node*, Node*> nodeMap;
+  
+    Node* connectRandom(Node* tree, Node* newRoot) {
+        if(tree!=NULL) {
+            newRoot->random = nodeMap[tree->random];
+            connectRandom(tree->left, newRoot->left);
+            connectRandom(tree->right, newRoot->right);
+        }
+    }
+    
+    Node* generateNewTree(Node* tree) {
+        if(tree==NULL) {
+            return NULL;
+        }
+        Node* root = new Node(tree->data);
+        root->data = tree->data;
+        root->left = generateNewTree(tree->left);
+        root->right = generateNewTree(tree->right);
+        nodeMap[tree] = root;
+        return root;
+    }
+    
+    Node* cloneTree(Node* tree)
+    {
+       //Your code here
+       if(tree==NULL) {
+           return NULL;
+       }
+       nodeMap.clear();
+       Node* newRoot = generateNewTree(tree);
+       connectRandom(tree, newRoot);
+       return newRoot;
+    }
+};
