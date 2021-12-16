@@ -1,0 +1,27 @@
+int indx;
+Node* makeTree(int post[], int min, int max, int n) {
+    //cout<<indx<<endl;
+    if(indx<0) {
+        return NULL;
+    }
+    Node* root = NULL;
+    if(indx>=0 && indx<n && post[indx]>min && post[indx]<max) {
+        root = new Node(post[indx]);
+        indx--;
+        if(indx>=0) {
+            root->right = makeTree(post,root->data,max,n);
+            root->left = makeTree(post,min,root->data,n);
+        }
+    }
+    return root;
+}
+
+Node *constructTree (int post[], int size)
+{
+//code here
+if(size==0) {
+    return NULL;
+}
+indx = size-1;
+return makeTree(post,INT_MIN,INT_MAX,size);
+}
