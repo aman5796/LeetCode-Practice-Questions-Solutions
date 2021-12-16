@@ -1,0 +1,27 @@
+map<int,bool> mp;
+
+Node* makeTree(int in[], int lvl[], int start, int end, int n) {
+    if(start>end) {
+        return NULL;
+    }
+    int indx=-1;
+    for(int i=0;i<n;i++) {
+        if(!mp[lvl[i]]) {
+            for(int j=start;j<=end;j++) {
+                if(lvl[i]==in[j]) {
+                    indx = j;
+                    break;
+                }
+            }
+            if(indx!=-1) {
+                break;
+            }
+        }
+    }
+    Node* root = new Node(in[indx]);
+    root->key = in[indx];
+    mp[root->key] = true;
+    root->left = makeTree(in,lvl,start,indx-1,n);
+    root->right = makeTree(in,lvl,indx+1,end,n);
+    return root;
+}
