@@ -1,0 +1,60 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        if(root==NULL) {
+            return {};
+        }
+        vector<TreeNode*> nodePath;
+        nodePath = findNode(root,target,{});
+        reverse(nodePath.begin(),nodePath.end());
+        vector<int> res;
+        for(int i=0;i<nodePath.size() && k-i>=0;i++) {
+            pushNodes(nodePath[i],k-i,res,(i==0)?NULL:nodePath[i-1]);
+        }
+        return res;
+    }
+    
+    vector<TreeNode*> findNode(TreeNode* root,TreeNode* target, vector<TreeNode*> path) {
+        if(root!=NULL) {
+            if(root==target) {
+                path.push_back(target);
+                return path;
+            }
+            else {
+                path.push_back(root);
+                vector<TreeNode*> leftPath = findNode(root->left,target,path);
+                vector<TreeNode*> rightPath = findNode(root->right,target,path);
+                path.pop_back();
+                return (leftPath.size()!=0)?leftPath:rightPath;
+            }
+        }
+        else {
+            return {};
+        }
+        return path;
+    }
+    
+    void pushNodes(TreeNode* root, int depth, vector<int>& res,TreeNode* exclude) {
+        if(root==exclude) {
+            return;
+        }
+        if(root) {
+            if(depth==0) {
+                res.push_back(root->val);
+            }
+            else {
+                pushNodes(root->left,depth-1,res,exclude);
+                pushNodes(root->right,depth-1,res,exclude);
+            }
+        }
+    }
+};
