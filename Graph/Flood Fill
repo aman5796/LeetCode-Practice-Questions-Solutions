@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        if(image.size()==0) {
+            return {};
+        }
+        int row = image.size();
+        int column = image[0].size();
+        vector<vector<int>> res(image);
+        queue<pair<int,int>> q;
+        q.push({sr,sc});
+        vector<vector<bool>> visited(row,vector<bool>(column,false));
+        while(!q.empty()) {
+            pair<int,int> node = q.front();
+            q.pop();
+            visited[node.first][node.second]=true;
+            if(node.first-1>=0 && !visited[node.first-1][node.second] && image[node.first-1][node.second]==image[node.first][node.second]) {
+                q.push({node.first-1,node.second}); //top
+            }
+            if(node.first+1<row && !visited[node.first+1][node.second] && image[node.first+1][node.second]==image[node.first][node.second]) {
+                q.push({node.first+1,node.second}); //bottom
+            }
+            if(node.second+1<column && !visited[node.first][node.second+1] && image[node.first][node.second+1]==image[node.first][node.second]) {
+                q.push({node.first,node.second+1}); //right
+            }
+            if(node.second-1>=0 && !visited[node.first][node.second-1] && image[node.first][node.second-1]==image[node.first][node.second]) {
+                q.push({node.first,node.second-1}); //left
+            }
+            res[node.first][node.second] = newColor;
+        }
+        return res;
+    }
+};
