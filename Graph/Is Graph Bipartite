@@ -1,0 +1,42 @@
+class Solution {
+public:
+    bool isBipartite(vector<vector<int>>& graph) {
+        bool res = true;
+        vector<int> color(graph.size(),0);
+        vector<int> visited(graph.size(),false);
+        queue<int> q;
+        q.push(0);
+        int curColor = 1;
+        int visit = 0;
+        while(!q.empty()) {
+            int node = q.front();
+            q.pop();
+            color[node] = (color[node]==0)?curColor:color[node];
+            visited[node] = true;
+            visit++;
+            for(int i=0;i<graph[node].size();i++) {
+                if(color[graph[node][i]]==color[node]) {
+                    res = false;
+                    break;
+                }
+                else if(color[graph[node][i]]==0) {
+                    color[graph[node][i]] = (color[node]==1)?2:1;
+                    q.push(graph[node][i]);
+                }
+            }
+            if(!res) {
+                break;
+            }
+            if(graph[node].size()==0 || (q.empty() && visit<graph.size())) {
+                for(int i=0;i<visited.size();i++) {
+                    if(!visited[i]) {
+                        q.push(i);
+                        break;
+                    }
+                }
+            }
+            curColor = (curColor==1)?2:1;
+        }
+        return res;
+    }
+};
