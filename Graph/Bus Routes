@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int numBusesToDestination(vector<vector<int>>& routes, int source, int target) {
+        unordered_map<int,vector<int>> graph;
+        for(int i=0;i<routes.size();i++) {
+            int col = routes[i].size();
+            for(int j=0;j<col;j++) {
+                graph[routes[i][j]].push_back(i);
+            }
+        }
+        unordered_set<int> visited = {source};
+        queue<pair<int,int>> q;
+        q.push({source,0});
+        while(!q.empty()) {
+            pair<int,int> node = q.front();
+            q.pop();
+            if(node.first==target) {
+                return node.second;
+            }
+            for(int i: graph[node.first]) {
+                for(int j: routes[i]) {
+                    if(visited.find(j)==visited.end()) {
+                        q.push({j,node.second+1});
+                        visited.insert(j);
+                    }
+                }
+                routes[i].clear();
+            }
+        }
+        return -1;
+    }
+};
