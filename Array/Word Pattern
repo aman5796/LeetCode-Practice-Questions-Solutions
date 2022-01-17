@@ -1,0 +1,48 @@
+class Solution {
+public:
+    bool wordPattern(string pattern, string s) {
+        if(pattern.length()>=s.length() && s.length()>1) {
+            return false;
+        }
+        unordered_map<string,char> hmap;
+        unordered_map<char,string> cmap;
+        string temp = "";
+        int j=0;
+        int spaceCnt=0;
+        for(int i=0;i<s.length();i++) {
+            if(s[i]!=' ') {
+                temp += s[i];
+            }
+            else {
+                if(hmap.find(temp)!=hmap.end()) {
+                    if(hmap[temp]!=pattern[j]) {
+                        return false;
+                    }
+                } else {
+                    if(cmap.find(pattern[j])!=cmap.end()) {
+                        return false;
+                    } else {
+                        cmap[pattern[j]] = temp;
+                        hmap[temp] = pattern[j];
+                    }
+                }
+                j++;
+                temp = "";
+            }
+        }
+        if(j+1<pattern.length()) {
+            return false;
+        }
+        if(hmap.find(temp)!=hmap.end()) {
+            if(hmap[temp]!=pattern[j]) {
+                return false;
+            }
+        }
+        if(cmap.find(pattern[j])!=cmap.end()) {
+            if(temp!=cmap[pattern[j]]) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
