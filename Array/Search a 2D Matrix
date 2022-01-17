@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        return search(matrix,target,0,0,matrix[0].size()-1);
+    }
+    
+    bool search(vector<vector<int>>& arr, int n, int row, int l, int r) {
+        if(l>r || row>=arr.size()) {
+            return false;
+        }
+        int mid = (l+r)/2;
+        if(arr[row][mid]==n) {
+            return true;
+        }
+        else if(n>arr[row][mid] && n<=arr[row][r]) {
+            if(search(arr,n,row,mid+1,r)) {
+                return true;
+            }
+        }
+        else if(n>arr[row][mid] && n>arr[row][r]) {
+            if(search(arr,n,row+1,0,arr[row].size()-1)) {
+                return true;
+            }
+        }
+        else if(n<arr[row][mid] && n>=arr[row][l]) {
+            if(search(arr,n,row,l,mid-1)) {
+                return true;
+            }
+        }
+        return false;
+    }
+};
