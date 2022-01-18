@@ -1,0 +1,25 @@
+class Solution{
+    public:
+    int maxLen(vector<int>&A, int n)
+    {   
+        unordered_map<int,int> hmap;
+        hmap.clear();
+        int sum = 0;
+        int maxlen=0;
+        for(int i=0;i<A.size();i++) {
+            sum += A[i];
+            if(A[i]==0 && maxlen==0) {
+                maxlen = 1;
+            }
+            if(sum==0) {
+                maxlen=i+1;
+            }
+            if(hmap.find(sum)!=hmap.end()) {
+                maxlen = max(maxlen,i-hmap[sum]);
+            } else {
+                hmap[sum]=i;
+            }
+        }
+        return maxlen;
+    }
+};
