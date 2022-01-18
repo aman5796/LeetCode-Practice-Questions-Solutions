@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int findCenter(vector<vector<int>>& edges) {
+        vector<int> hmap(edges.size()+2,0);
+        for(auto node: edges) {
+            hmap[node[0]]++;
+            hmap[node[1]]++;
+        }
+        int n = edges.size();
+        for(int i=0;i<hmap.size();i++) {
+            if(hmap[i]==n) {
+                return i;
+            }
+        }
+        return -1;
+    }
+};
