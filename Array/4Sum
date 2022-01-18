@@ -1,0 +1,47 @@
+class Solution {
+public:
+    vector<vector<int>> res;
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        if(nums.size()<4) {
+            return {};
+        }
+        sort(nums.begin(),nums.end());
+        checkSum(nums,target);
+        return res;
+    }
+    
+    void checkSum(vector<int>& arr, int n) {
+        for(int i=0;i<arr.size();i++) {
+            for(int j=i+1;j<arr.size();j++) {
+                twoSum(arr,j+1,n-arr[i]-arr[j],i,j);
+                while(j<arr.size()-1 && arr[j]==arr[j+1]) {
+                    j++;
+                }
+            }
+            while(i<arr.size()-1 && arr[i]==arr[i+1]) {
+                    i++;
+            }
+        }
+    }
+    
+    void twoSum(vector<int>& arr, int indx, int n, int i, int j) {
+        int l=indx, r=arr.size()-1;
+        while(l<r) {
+            if(arr[l]+arr[r]==n) {
+                res.push_back({arr[i],arr[j],arr[l],arr[r]});
+                while(l<r && res.back()[2]==arr[l]) {
+                    l++;
+                }
+                while(l<r && res.back()[3]==arr[r]) {
+                    r--;
+                }
+            }
+            else if(arr[l]+arr[r]>n) {
+                r--;
+            }
+            else {
+                l++;
+            }
+        }
+    }
+};
