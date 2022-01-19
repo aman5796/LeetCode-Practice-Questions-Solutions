@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+        return getCountOfAtleastK(nums,k)-getCountOfAtleastK(nums,k-1);
+    }
+    
+    int getCountOfAtleastK(vector<int>& nums, int k) {
+        unordered_map<int,int> hmap;
+        int count = 0;
+        int l=0,r=0;
+        while(r<nums.size()) {
+            if(hmap.find(nums[r])==hmap.end()) {
+                hmap[nums[r]] = 1;
+            }
+            else {
+                hmap[nums[r]]++;
+            }
+            while(hmap.size()>k) {
+                hmap[nums[l]]--;
+                if(hmap[nums[l]]==0) {
+                    hmap.erase(nums[l]);
+                }
+                l++;
+            }
+            count += r-l+1;
+            r++;
+        }
+        return count;
+    }
+}; 
