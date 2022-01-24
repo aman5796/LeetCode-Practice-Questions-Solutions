@@ -1,0 +1,39 @@
+class Solution {
+public:
+    bool canFinish(int N, vector<vector<int>>& arr) {
+        unordered_map<int,vector<int>> graph;
+        for(auto edge: arr) {
+            if(graph.find(edge[0])==graph.end()) {
+                graph[edge[0]] = {edge[1]};
+            }
+            else {
+                graph[edge[0]].push_back(edge[1]);
+            }
+        }
+        vector<int> visit(N,0);
+        for(int i=0;i<N;i++) {
+            if(visit[i]==0) {
+                if(!dfs(graph,i,visit)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    bool dfs(unordered_map<int,vector<int>> &graph, int node, vector<int> &visit) {
+        visit[node] = 2;
+        for(auto adjNode: graph[node]) {
+            if(visit[adjNode]==2) {
+                return false;
+            }
+            else if(visit[adjNode]==0) {
+                if(!dfs(graph,adjNode,visit)) {
+                    return false;
+                }
+            }
+        }
+        visit[node] = 1;
+        return true;
+    }
+};
