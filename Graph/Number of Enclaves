@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int numEnclaves(vector<vector<int>>& grid) {
+        int totalOne = 0;
+        for(int i=0;i<grid.size();i++) {
+            for(int j=0;j<grid[0].size();j++) {
+                if(grid[i][j]==1) {
+                    totalOne += 1;
+                }
+            }
+        }
+        int reachable = 0;
+        for(int i=0;i<grid.size();i++) {
+            for(int j=0;j<grid[0].size();j++) {
+                if(grid[i][j]==1 && (i==0 || j==0 || i==grid.size()-1 || j==grid[0].size()-1)) {
+                    reachable += dfs(grid,i,j);
+                }
+            }
+        }
+        return totalOne-reachable;
+    }
+    
+    int dfs(vector<vector<int>> &arr, int i, int j) {
+        //cout<<i<<" "<<j<<endl;
+        if(i<0 || i>=arr.size() || j<0 || j>=arr[0].size() || arr[i][j]==0) {
+            return 0;
+        }
+        arr[i][j] = 0; //mean it is reached
+        return 1+dfs(arr,i-1,j)+dfs(arr,i+1,j)+dfs(arr,i,j-1)+dfs(arr,i,j+1);
+    }
+};
