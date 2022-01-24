@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
+        vector<vector<int>> res(mat.size(),vector<int>(mat[0].size(),INT_MAX));
+        int row = mat.size();
+        int col = mat[0].size();
+        queue<pair<int,int>> q;
+        for(int i=0;i<row;i++) {
+            for(int j=0;j<col;j++) {
+                if(mat[i][j]==0) {
+                    res[i][j] = 0;
+                    q.push({i,j});
+                }
+            }
+        }
+        vector<pair<int,int>> directions = {{0,1},{1,0},{0,-1},{-1,0}};
+        while(!q.empty()) {
+            auto node = q.front();
+            q.pop();
+            for(auto dir: directions) {
+                int x = node.first+dir.first;
+                int y = node.second+dir.second;
+                if(x>=0 && x<row && y>=0 && y<col) {
+                    if(res[x][y]>res[node.first][node.second]+1) {
+                        res[x][y] = res[node.first][node.second]+1;
+                        q.push({x,y});
+                    }
+                }
+            }
+        }
+        return res;
+    }
+};
