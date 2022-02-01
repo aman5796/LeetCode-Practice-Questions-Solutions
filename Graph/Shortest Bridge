@@ -1,0 +1,58 @@
+class Solution {
+public:
+    queue<vector<int>> q;
+    int shortestBridge(vector<vector<int>>& grid) {
+        bool flag = false;
+        for(int i=0;i<grid.size();i++) {
+            for(int j=0;j<grid.size();j++) {
+                if(grid[i][j]==1) {
+                    dfs(grid,i,j);
+                    flag = !flag;
+                    break;
+                }
+            }
+            if(flag) {
+                break;
+            }
+        }
+        return bfs(grid);
+    }
+    
+    void dfs(vector<vector<int>> &arr, int i, int j) {
+        if(i<0 || j<0 || i>=arr.size() || j>=arr.size() || arr[i][j]==0 || arr[i][j]==2) {
+            return;
+        }
+        arr[i][j]=2;
+        q.push({i,j});
+        dfs(arr,i-1,j);
+        dfs(arr,i+1,j);
+        dfs(arr,i,j-1);
+        dfs(arr,i,j+1);
+    }
+    
+    int bfs(vector<vector<int>> &arr) {
+        int minSwap = INT_MAX;
+        int lvl = 0;
+        while(!q.empty()) {
+            int n = q.size();
+            vector<vector<int>> nbh = {{-1,0},{1,0},{0,-1},{0,1}};
+            while(n--) {
+                auto top = q.front();
+                q.pop();
+                for(int i=0;i<4;i++) {
+                    int x = top[0]+nbh[i][0];
+                    int y = top[1]+nbh[i][1];
+                    if(x>=0 && y>=0 && x<arr.size() && y<arr.size() && arr[x][y]==1) {
+                        minSwap = min(minSwap,lvl);
+                    }
+                    if(x>=0 && y>=0 && x<arr.size() && y<arr.size() && arr[x][y]==0) {
+                        q.push({x,y});
+                        arr[x][y] = 2;
+                    }
+                }
+            }  
+            lvl++;
+        }
+        return minSwap;
+    }
+};
