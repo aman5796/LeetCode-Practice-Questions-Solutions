@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int maxDistance(vector<vector<int>>& grid) {
+        queue<vector<int>> q;
+        int n = grid.size();
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<n;j++) {
+                if(grid[i][j]==1) {
+                    q.push({i,j});
+                }
+            }
+        }
+        if(q.size()==0 || q.size()==n*n) {
+            return -1;
+        }
+        int numSteps = 0;
+        vector<vector<int>> dir = {{-1,0},{0,1},{1,0},{0,-1}};
+        while(!q.empty()) {
+            int curItems = q.size();
+            numSteps++;
+            while(curItems--) {
+                auto curIndx = q.front();
+                q.pop();
+                for(int i=0;i<4;i++) {
+                    int x = curIndx[0] + dir[i][0];
+                    int y = curIndx[1] + dir[i][1];
+                    if(x>=0 and y>=0 and x<n and y<n and grid[x][y]==0) {
+                        q.push({x,y});
+                        grid[x][y] = 1;
+                    }
+                }
+            }
+        }
+        return numSteps-1;
+    }
+};
