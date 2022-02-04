@@ -1,0 +1,48 @@
+class Solution{
+    public:
+    int doctorStrange(int N, int M, vector<vector<int>> & graph)
+    {
+         //Write your code here
+         vector<int> gr[N+1];
+         for(int i=0;i<M;i++) {
+             gr[graph[i][0]].push_back(graph[i][1]);
+             gr[graph[i][1]].push_back(graph[i][0]);
+         }
+         vector<bool> visited(N+1,false);
+         unordered_set<int> artPoints;
+         vector<int> lvt(N+1,-1);
+         vector<int> tin(N+1,-1);
+         int vTime = 0;
+         for(int i=1;i<=N;i++) {
+             if(!visited[i]) {
+                 dfs(gr,visited,i,-1,lvt,tin,vTime,artPoints);
+             }
+         }
+         return artPoints.size();
+    }
+    
+    void dfs(vector<int> arr[], vector<bool> &visited, int curNode, int parent, vector<int> &lvt, vector<int> &tin, int &vTime, unordered_set<int> &artPoints) {
+        lvt[curNode] = tin[curNode] = vTime++;
+        visited[curNode] = true;
+        int child = 0;
+        for(int i=0;i<arr[curNode].size();i++) {
+            if(arr[curNode][i]==parent) {
+                continue;
+            }
+            if(!visited[arr[curNode][i]]) {
+                //cout<<arr[curNode][i]<<" "<<curNode<<endl;
+                dfs(arr,visited,arr[curNode][i],curNode,lvt,tin,vTime,artPoints);
+                lvt[curNode] = min(lvt[curNode],lvt[arr[curNode][i]]);
+                if(lvt[arr[curNode][i]]>=tin[curNode] && parent!=-1) {
+                    artPoints.insert(curNode);
+                }
+            }
+            else {
+                lvt[curNode] = min(lvt[curNode],tin[arr[curNode][i]]);
+            }
+        }
+        if(parent==-1 && child>1) {
+            artPoints.insert(curNode);
+        }
+    }
+};
