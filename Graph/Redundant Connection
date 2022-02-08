@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int n = edges.size();
+        vector<int> parent(n+1);
+        for(int i=0;i<=n;i++) {
+            parent[i] = i;
+        }
+        int a=-1,b=-1;
+        for(auto ed: edges) {
+            if(find(parent,ed[0])!=find(parent,ed[1])) {
+                _union(parent,ed[0],ed[1]);
+            }
+            else {
+                a = ed[0];
+                b = ed[1];
+            }
+        }
+        return vector<int> {a,b};
+    }
+    
+    int find(vector<int> &parent, int a) {
+        if(parent[a]!=a) {
+            return find(parent,parent[a]);
+        }
+        return a;
+    }
+    
+    void _union(vector<int> &parent, int a, int b) {
+        if(find(parent,a)!=find(parent,b)) {
+            parent[find(parent,a)] = find(parent,b);
+        }
+    }
+};
