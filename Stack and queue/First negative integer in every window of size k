@@ -1,0 +1,34 @@
+vector<long long> printFirstNegativeInteger(long long int A[],
+                                             long long int N, long long int k) {
+                                                 deque<long long int> dq;
+                                                 vector<long long int> res;
+                                                 for(int i=0;i<N;i++) {
+                                                     if(i<k) {
+                                                         if(A[i]<0) {
+                                                             dq.push_back(i);
+                                                         }
+                                                     } 
+                                                     else {
+                                                             if(!dq.empty()) {
+                                                                 res.push_back(A[dq.front()]);
+                                                             }
+                                                             else {
+                                                                 res.push_back(0);
+                                                             }
+                                                             while(!dq.empty() && dq.front()<i-k+1) {
+                                                                 dq.pop_front();
+                                                             }
+                                                             if(A[i]<0) {
+                                                                 dq.push_back(i);
+                                                             }
+                                                         }
+                                                 }
+                                                 if(!dq.empty()) {
+                                                     res.push_back(A[dq.front()]);
+                                                 }
+                                                 else {
+                                                     res.push_back(0);
+                                                 }
+                                                 return res;
+                                                 
+ }
