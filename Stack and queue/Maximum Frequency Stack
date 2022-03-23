@@ -1,0 +1,33 @@
+class FreqStack {
+public:
+    map<int,int> freqMap;
+    map<int,stack<int>> freqSet;
+    int maxFreq = 0;
+    FreqStack() {
+        // do nothing
+    }
+    
+    void push(int val) {
+        int curFreq = freqMap[val]+1;
+        freqMap[val] = curFreq;
+        maxFreq = max(maxFreq,curFreq);
+        freqSet[curFreq].push(val);
+    }
+    
+    int pop() {
+        int top = freqSet[maxFreq].top();
+        freqSet[maxFreq].pop();
+        freqMap[top]--;
+        if(!freqSet[maxFreq].size()) {
+            maxFreq--;
+        }
+        return top;
+    }
+};
+
+/**
+ * Your FreqStack object will be instantiated and called as such:
+ * FreqStack* obj = new FreqStack();
+ * obj->push(val);
+ * int param_2 = obj->pop();
+ */
