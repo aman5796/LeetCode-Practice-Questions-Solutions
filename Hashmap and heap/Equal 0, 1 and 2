@@ -1,0 +1,26 @@
+class Solution {
+  public:
+    long long getSubstringWithEqual012(string str) {
+        // code here
+        int c1 = 0;
+        int c2 = 0;
+        int c0 = 0;
+        unordered_map<string,int> hmap;
+        hmap[to_string(c1-c0)+"#"+to_string(c2-c1)]++;
+        long long int ans = 0;
+        for(auto ch:  str) {
+            if(ch=='0') {
+                c0++;
+            } else if(ch=='1') {
+                c1++;
+            } else {
+                c2++;
+            }
+            if(hmap.find(to_string(c1-c0)+"#"+to_string(c2-c1))!=hmap.end()) {
+                ans += hmap[to_string(c1-c0)+"#"+to_string(c2-c1)];
+            }
+            hmap[to_string(c1-c0)+"#"+to_string(c2-c1)]++;
+        }
+        return ans;
+    }
+};
