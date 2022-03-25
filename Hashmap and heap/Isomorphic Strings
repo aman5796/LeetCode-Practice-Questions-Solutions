@@ -1,0 +1,15 @@
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        int sFreq[256] = {0};
+        int tFreq[256] = {0};
+        for(int i=0;i<s.length();i++) {
+            if(sFreq[s[i]]!=tFreq[t[i]]) {
+                return false;
+            }
+            sFreq[s[i]] = i+1;
+            tFreq[t[i]] = i+1;
+        }
+        return true;
+    }
+};
