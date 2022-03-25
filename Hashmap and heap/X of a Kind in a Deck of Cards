@@ -1,0 +1,15 @@
+class Solution {
+public:
+    bool hasGroupsSizeX(vector<int>& deck) {
+        if(deck.size()==1) return false;
+        unordered_map<int,int> freqMap;
+        for(auto num: deck) {
+            freqMap[num]++;
+        }
+        int ans = 0;
+        for(auto val: freqMap) {
+            ans = __gcd(ans,val.second);
+        }
+        return (ans>=2)?true:false;
+    }
+};
