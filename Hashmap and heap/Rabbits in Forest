@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int numRabbits(vector<int>& answers) {
+        unordered_map<int,int> freqMap;
+        for(auto num: answers) {
+            freqMap[num]++;
+        }
+        int ans = 0;
+        for(auto num: answers) {
+            if(freqMap[num]!=0) {
+                ans += num+1;
+                freqMap[num] -= (num+1>=freqMap[num])?freqMap[num]:(num+1);
+            }
+        }
+        return ans;
+    }
+};
