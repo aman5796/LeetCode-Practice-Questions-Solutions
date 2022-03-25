@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int islandPerimeter(vector<vector<int>>& grid) {
+        int ans = 0;
+        vector<vector<bool>> vis(grid.size(),vector<bool>(grid[0].size(),false));
+        for(int i=0;i<grid.size();i++) {
+            for(int j=0;j<grid[0].size();j++) {
+                if(grid[i][j]==1 && !vis[i][j]) {
+                    dfs(grid,i,j,ans,vis);
+                }
+            }
+        }
+        return ans;
+    }
+    
+    void dfs(vector<vector<int>> &graph, int r, int c, int &ans, vector<vector<bool>> &vis) {
+        if(r<0 || r>=graph.size() || c<0 || c>=graph[0].size() || vis[r][c] || graph[r][c]==0) {
+            return;
+        }
+        vis[r][c] = true;
+        int cnt = 0;
+        if(r-1<0) cnt++;
+        if(r+1>=graph.size()) cnt++;
+        if(c-1<0) cnt++;
+        if(c+1>=graph[0].size()) cnt++;
+        if(r-1>=0 && !graph[r-1][c]) cnt++;
+        if(r+1<graph.size() && !graph[r+1][c]) cnt++;
+        if(c-1>=0 && !graph[r][c-1]) cnt++;
+        if(c+1<graph[0].size() && !graph[r][c+1]) cnt++;
+        ans += cnt;
+        dfs(graph,r-1,c,ans,vis);
+        dfs(graph,r+1,c,ans,vis);
+        dfs(graph,r,c-1,ans,vis);
+        dfs(graph,r,c+1,ans,vis);
+    }
+};
