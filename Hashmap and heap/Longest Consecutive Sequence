@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_map<int,int> lenMap;
+        for(auto num: nums) {
+            if(lenMap.find(num)!=lenMap.end()) {
+                continue;
+            }
+            lenMap[num] = 1;
+            if(lenMap.find(num-1)!=lenMap.end()) {
+                lenMap[num] += lenMap[num-1];
+            }
+            if(lenMap.find(num+1)!=lenMap.end()) {
+                lenMap[num] += lenMap[num+1];
+            }
+            if(lenMap.find(num-1)!=lenMap.end()) {
+                lenMap[num-lenMap[num-1]] = lenMap[num];
+            }
+            if(lenMap.find(num+1)!=lenMap.end()) {
+                lenMap[num+lenMap[num+1]] = lenMap[num];
+            }
+        }
+        int ans = INT_MIN;
+        for(auto val: lenMap) {
+            ans = max(ans,val.second);
+        }
+        return (ans==INT_MIN)?0:ans;
+    }
+};
