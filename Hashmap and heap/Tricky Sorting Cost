@@ -1,0 +1,16 @@
+class Solution{
+public:
+    int sortingCost(int N, int arr[]){
+        // code here
+        unordered_map<int,int> hmap;
+        int swp = 0;
+        for(int i=0;i<N;i++) {
+            if(hmap.find(arr[i]-1)!=hmap.end()) {
+                hmap[arr[i]] = hmap[arr[i]-1];
+            }
+            hmap[arr[i]]++;
+            swp = max(swp,hmap[arr[i]]);
+        }
+        return N-swp;
+    }
+};
