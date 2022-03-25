@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<int> gridIllumination(int n, vector<vector<int>>& lamps, vector<vector<int>>& queries) {
+        vector<int> res;
+        unordered_map<int,int> r;
+        unordered_map<int,int> c;
+        unordered_map<int,int> rpc;
+        unordered_map<int,int> rmc;
+        set<pair<int,int>> s;
+        for(auto lamp: lamps) {
+            if(s.count({lamp[0],lamp[1]})) continue;
+            r[lamp[0]]++;
+            c[lamp[1]]++;
+            rpc[lamp[0]+lamp[1]]++;
+            rmc[lamp[0]-lamp[1]]++;
+            s.insert({lamp[0],lamp[1]});
+        }
+        for(auto qry: queries) {
+            if(r[qry[0]]>0 || c[qry[1]]>0 || rpc[qry[0]+qry[1]]>0 || rmc[qry[0]-qry[1]]>0) {
+                res.push_back(1);
+                int x = qry[0];
+                int y = qry[1];
+                for(int i=-1;i<=1;i++) {
+                    for(int j=-1;j<=1;j++) {
+                        if(x+i>=0 && x+i<n && y+j>=0 && y+j<n && s.count({x+i,y+j})) {
+                            s.erase({x+i,y+j});
+                            r[x+i]--;
+                            c[y+j]--;
+                            rpc[x+y+i+j]--;
+                            rmc[x+i-y-j]--;
+                        }
+                    }
+                }
+            }
+            else {
+                res.push_back(0);
+            }
+        }
+        return res;
+    }
+};
