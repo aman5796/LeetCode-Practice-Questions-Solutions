@@ -1,0 +1,35 @@
+class Solution {
+public:
+    bool canReorderDoubled(vector<int>& arr) {
+        unordered_map<int,int> freqMap;
+        for(auto num: arr) {
+            freqMap[num]++;
+        }
+        sort(arr.begin(),arr.end());
+        for(auto num: arr) {
+            if(freqMap[num] && num%2 && freqMap.find(2*num)!=freqMap.end() && freqMap[2*num]!=0) {
+                freqMap[num]--;
+                freqMap[2*num]--;
+            }
+            else if(freqMap[num] && num%2==0) {
+                if(freqMap.find(2*num)!=freqMap.end() && freqMap[2*num]!=0) {
+                    freqMap[num]--;
+                    freqMap[2*num]--; 
+                }
+                else if(freqMap.find(num/2)!=freqMap.end() && freqMap[num/2]!=0) {
+                    freqMap[num]--;
+                    freqMap[num/2]--;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                if(freqMap[num]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};
