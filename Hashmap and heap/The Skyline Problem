@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
+        vector<vector<int>> bars;
+        for(auto vec: buildings) {
+            bars.push_back({vec[0],-vec[2]});
+            bars.push_back({vec[1],vec[2]});
+        }
+        sort(bars.begin(),bars.end());
+        vector<vector<int>> ans;
+        multiset<int> pq = {0};
+        int cht = 0;
+        for(auto& b: bars) {
+            int st = b[0];
+            int ht = b[1];
+            if(ht<0) {
+                pq.insert(-ht);
+            }
+            else {
+                pq.erase(pq.find(ht));
+            }
+            if(cht!=*pq.rbegin()) {
+                ans.push_back({st,*pq.rbegin()});
+                cht = *pq.rbegin();
+            }
+        }
+        return ans;
+    }
+};
