@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int leastBricks(vector<vector<int>>& wall) {
+        unordered_map<int,int> walLen;
+        int n = accumulate(wall[0].begin(),wall[0].end(),0);
+        for(int i=0;i<wall.size();i++) {
+            int ending = 0;
+            for(auto num: wall[i]) {
+                ending += num;
+                walLen[ending]++;
+            }
+        }
+        int ans = INT_MAX;
+        int rows = wall.size();
+        for(auto val: walLen) {
+            if(val.first!=n && val.second<=rows) {
+                ans = min(ans,rows-val.second);
+            }
+        }
+        return (ans==INT_MAX)?rows:ans;
+    }
+};
