@@ -1,0 +1,24 @@
+class Solution {
+  public:
+    string getSmallest(long long n) {
+        // code here
+        if(n<10) {
+            return to_string(n);
+        }
+        string res;
+        for(int i=9;i>1;i--) {
+            while(n%i==0) {
+                n=n/i;
+                res.append(to_string(i));
+            } 
+            if(n<=1) {
+                break;
+            }
+        }
+        if(n>10) {
+            return(to_string(-1));
+        }
+        reverse(res.begin(),res.end());
+        return res;
+    }
+};
