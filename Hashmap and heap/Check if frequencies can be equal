@@ -1,0 +1,35 @@
+class Solution{
+public:	
+	bool sameFreq(string s)
+	{
+	    // code here 
+	    vector<int> chMap(26,0);
+	    for(char ch: s) {
+	        chMap[ch-97]++;
+	    }
+	    int allowed = 1;
+	    int lasFreq = INT_MIN;
+	    for(int num: chMap) {
+	        if(lasFreq==INT_MIN && num!=0) {
+	            lasFreq = num;
+	            continue;
+	        }
+	        if(num!=0 && num==lasFreq+1 && allowed) {
+	            allowed--;
+	            continue;
+	        }
+	        else if(num!=0 && num==lasFreq-1 && allowed) {
+	            lasFreq = num;
+	            allowed--;
+	        }
+	        if(num!=0 && num!=lasFreq) {
+	            if(num==1 && allowed==1) {
+	                allowed--;
+	                continue;
+	            }
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+};
