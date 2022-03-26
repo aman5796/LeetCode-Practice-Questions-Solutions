@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int n = height.size();
+        vector<int> maxElmntLft(n,0);
+        vector<int> maxElmntRht(n,0);
+        maxElmntLft[0] = height[0];
+        for(int i=1;i<n;i++) {
+            maxElmntLft[i] = max(maxElmntLft[i-1],height[i]);
+        }
+        maxElmntRht[n-1] = height[n-1];
+        for(int i=n-2;i>=0;i--) {
+            maxElmntRht[i] = max(maxElmntRht[i+1],height[i]);
+        }
+        int ans = 0;
+        for(int i=0;i<n;i++) {
+            ans += min(maxElmntLft[i],maxElmntRht[i])-height[i];
+        }
+        return ans;
+    }
+};
