@@ -1,0 +1,20 @@
+int isPossible (string S)
+{
+    // your code here
+    unordered_map<int,int> hmap;
+    for(char ch: S) {
+        hmap[ch]++;
+    }
+    int cnt = 1;
+    for(auto val: hmap) {
+        if(val.second%2==1) {
+            if(cnt) {
+                cnt--;
+            }
+            else {
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
