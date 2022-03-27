@@ -1,0 +1,51 @@
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        unordered_map<char,int> hmap;
+        for(char ch: p) {
+            hmap[ch]++;
+        }
+        vector<int> res;
+        int cnt = 0;
+        for(int i=0;i<s.length();i++) {
+            if(i<p.length()) {
+                if(hmap.find(s[i])!=hmap.end()) {
+                    hmap[s[i]]--;
+                    if(hmap[s[i]]>=0) {
+                        cnt++;
+                    }
+                }
+            }
+            else {
+                //cout<<i<<" "<<cnt<<endl;
+                if(cnt==p.length()) {
+                    res.push_back(i-p.length());
+                }
+                if(hmap.find(s[i])!=hmap.end()) {
+                    if(hmap.find(s[i-p.length()])!=hmap.end()) {
+                        hmap[s[i-p.length()]]++;
+                        if(hmap[s[i-p.length()]]>0) {
+                            cnt--;
+                        }
+                    }
+                    hmap[s[i]]--;
+                    if(hmap[s[i]]>=0) {
+                        cnt++;
+                    }
+                } 
+                else {
+                    if(hmap.find(s[i-p.length()])!=hmap.end()) {
+                        hmap[s[i-p.length()]]++;
+                        if(hmap[s[i-p.length()]]>0) {
+                            cnt--;
+                        }
+                    }
+                }
+            }
+        }
+        if(cnt==p.length()) {
+            res.push_back(s.length()-p.length());
+        }
+        return res;
+    }
+};
