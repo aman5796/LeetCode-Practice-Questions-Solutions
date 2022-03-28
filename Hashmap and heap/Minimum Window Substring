@@ -1,0 +1,36 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        vector<int> sMap(256,0);
+        vector<int> tMap(256,0);
+        for(char ch: t) {
+            tMap[ch]++;
+        }
+        int indx = 0;
+        int left = 0;
+        int lenReq = INT_MAX;
+        int cnt = 0;
+        for(int i=0;i<s.length();i++) {
+            if(tMap[s[i]]>0 && tMap[s[i]]>sMap[s[i]]) {
+                cnt++;
+            }
+            sMap[s[i]]++;
+            if(cnt==t.length()) {
+                while(indx<i && (tMap[s[indx]]<sMap[s[indx]]) || tMap[s[indx]]==0) {
+                    if(tMap[s[indx]]<sMap[s[indx]]) {
+                        sMap[s[indx]]--;
+                    }
+                    indx++;
+                }
+                if(lenReq>(i-indx+1)) {
+                    lenReq = i-indx+1;
+                    left = indx;
+                }
+            }
+        }
+        if(lenReq==INT_MAX) {
+            return "";
+        }
+        return s.substr(left,lenReq);
+    }
+};
