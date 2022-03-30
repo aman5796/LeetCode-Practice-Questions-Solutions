@@ -1,0 +1,28 @@
+int longestSubstrDistinctChars (string s)
+{
+    // your code here
+    int left = 0;
+    vector<int> hmap(256,-1);
+    int ans = INT_MIN;
+    bool allSame = true;
+    int cnt = 0;
+    for(int i=0;i<s.length();i++) {
+        if(hmap[s[i]]!=-1 && hmap[s[i]]>=left) {
+            ans = max(ans,i-left);
+            left = hmap[s[i]]+1;
+            hmap[s[i]] = 0;
+            allSame = false;
+            cnt = 0;
+        }
+        hmap[s[i]] = i;
+        cnt++;
+    }
+    if(allSame) {
+        return s.length();
+    }
+    if(cnt!=0) {
+        int n = s.length();
+        ans = max(ans,n-left);
+    }
+    return (ans==INT_MIN)?1:ans;
+}
