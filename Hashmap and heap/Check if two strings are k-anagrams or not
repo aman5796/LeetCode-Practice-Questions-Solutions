@@ -1,0 +1,26 @@
+class Solution {
+  public:
+    bool areKAnagrams(string str1, string str2, int k) {
+        if(str1.length()!=str2.length()) return false;
+        vector<int> hmap(256,0);
+        for(int i=0;i<str1.length();i++) {
+            hmap[str1[i]]++;
+        }
+        int diff = 0;
+        for(int i=0;i<str2.length();i++) {
+            if(hmap[str2[i]]<=0) {
+                diff++;
+            }
+            else {
+                hmap[str2[i]]--;
+            }
+            if(hmap[str2[i]]==0) {
+                hmap[str2[i]] = -1;
+            }
+            if(diff>k) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
