@@ -1,0 +1,32 @@
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        if(numRows==1) return s;
+        vector<vector<char>> mat(numRows);
+        bool up = false;
+        int j = 0;
+        for(int i=0;i<s.length();i++) {
+            if(!up) {
+                mat[j++].push_back(s[i]);
+                if(j==numRows) {
+                    up = true;
+                    j = numRows-2;
+                }
+            }
+            else {
+                mat[j--].push_back(s[i]);
+                if(j==-1) {
+                    up = false;
+                    j = 1;
+                }
+            }
+        }
+        string res;
+        for(int i=0;i<numRows;i++) {
+            for(char ch: mat[i]) {
+                res += ch;
+            }
+        }
+        return res;
+    }
+};
