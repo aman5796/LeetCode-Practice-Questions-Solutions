@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int threeSumMulti(vector<int>& A, int target) {
+        unordered_map<int,long> freq;
+        for (int num : A) freq[num]++;
+        long res = 0;
+        for (auto it : freq)
+            for (auto it2 : freq) {
+                int i = it.first;
+                int j = it2.first;
+                int k = target-i-j;
+                if (!freq.count(k)) continue;
+                if (i==j && j==k)
+                    res += freq[i]*(freq[i]-1)*(freq[i]-2)/6;
+                else if (i==j && j!=k)
+                    res += freq[i] * (freq[i]-1)/2*freq[k];
+                else if (i<j && j<k)
+                    res += freq[i] * freq[j] * freq[k];
+            }
+        return res % int(1e9 + 7);
+    }
+};
