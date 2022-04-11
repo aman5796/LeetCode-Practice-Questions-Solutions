@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<vector<int>> shiftGrid(vector<vector<int>>& grid, int k) {
+        int rows = grid.size();
+        int cols = grid[0].size();
+        deque<int> dq;
+        for(int i=0;i<rows;i++) {
+            for(int j=0;j<cols;j++) {
+                dq.push_back(grid[i][j]);
+            }
+        }
+        int shifts = k%dq.size();
+        while(shifts--) {
+            int rear = dq.back();
+            dq.pop_back();
+            dq.push_front(rear);
+        }
+        for(int i=0;i<rows;i++) {
+            for(int j=0;j<cols;j++) {
+                int front = dq.front();
+                grid[i][j] = front;
+                dq.pop_front();
+            }
+        }
+        return grid;
+    }
+};
