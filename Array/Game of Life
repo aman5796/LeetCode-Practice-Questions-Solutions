@@ -1,0 +1,38 @@
+class Solution {
+public:
+    void gameOfLife(vector<vector<int>>& board) {
+        int rows = board.size();
+        int cols = board[0].size();
+        vector<vector<int>> dir = {{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1}};
+        vector<vector<int>> newBoard(rows,vector<int>(cols,-1));
+        for(int i=0;i<rows;i++) {
+            for(int j=0;j<cols;j++) {
+                int liv = 0;
+                for(int k=0;k<8;k++) {
+                    int x = i+dir[k][0];
+                    int y = j+dir[k][1];
+                    if(x>=0 && x<rows && y>=0 && y<cols && board[x][y]==1) {
+                        liv++;
+                    }  
+                }
+                if(board[i][j]==0 && liv==3) {
+                    newBoard[i][j] = 1;
+                }
+                else if(board[i][j]==1 && liv<2) {
+                    newBoard[i][j] = 0;
+                }
+                else if(board[i][j]==1 && liv>3) {
+                    newBoard[i][j] = 0;
+                }
+                else {
+                    newBoard[i][j] = board[i][j];
+                }
+            }
+        }
+        for(int i=0;i<rows;i++) {
+            for(int j=0;j<cols;j++) {
+                board[i][j] = newBoard[i][j];
+            }
+        }
+    }
+};
