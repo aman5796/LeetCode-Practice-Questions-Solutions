@@ -1,0 +1,87 @@
+class Solution {
+public:
+    static bool cmp(vector<int> &a, vector<int> &b) {
+        if(a[0]==b[0]) {
+            return a[1]>b[1];
+        }
+        return a[0]<b[0];
+    }
+    
+    int maxEnvelopes(vector<vector<int>>& arr) {
+        int n = arr.size();
+        sort(arr.begin(),arr.end(), cmp);
+        vector<int> dp;
+        dp.push_back(arr[0][1]);
+        for(int i=0;i<n;i++) {
+            if(arr[i][1]>dp.back()) {
+                dp.push_back(arr[i][1]);
+            }
+            else {
+                int indx = lower_bound(dp.begin(), dp.end(), arr[i][1]) - dp.begin();
+                dp[indx] = arr[i][1];
+            }
+        }
+        return (int)dp.size();
+    }
+};
+
+
+// Below codes give TLE i.e O(N^2) solutions
+class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& arr) {
+        int n = arr.size();
+        if(n==1) {
+            return 1;
+        }
+        sort(arr.begin(),arr.begin()+n);
+        vector<vector<int>> dp(n+1,vector<int>(n+1,0-1));
+        return maxEnv(arr,0,-1,dp);
+    }
+    
+    int maxEnv(vector<vector<int>> &arr, int indx, int prev, vector<vector<int>> &dp) {
+        if(indx>=arr.size()) {
+            return 0;
+        }
+        if(dp[indx+1][prev+1]!=-1) {
+            return dp[indx+1][prev+1];
+        }
+        int pick=0, notPick=0;
+        if(prev==-1) {
+            pick = 1+maxEnv(arr, indx+1, indx, dp);
+            notPick = maxEnv(arr, indx+1, -1, dp);
+        }
+        else {
+            if(arr[indx][0]>arr[prev][0] && arr[indx][1]>arr[prev][1]) {
+                pick = 1+maxEnv(arr, indx+1, indx, dp);
+                notPick = maxEnv(arr, indx+1, prev, dp);
+            }
+            else {
+                notPick = maxEnv(arr, indx+1, prev, dp);
+            }
+        }
+        return dp[indx+1][prev+1] = max(pick, notPick);
+    }
+};
+
+class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& arr) {
+        int n = arr.size();
+        if(n==1) {
+            return 1;
+        }
+        sort(arr.begin(), arr.end());
+        vector<int> dp(n,1);
+        int ans = 1;
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<i;j++) {
+                if(arr[i][0]>arr[j][0] && arr[i][1]>arr[j][1]) {
+                    dp[i] = max(dp[i],dp[j]+1);
+                    ans = max(ans,dp[i]);
+                }
+            }
+        }
+        return ans;
+    }
+};
