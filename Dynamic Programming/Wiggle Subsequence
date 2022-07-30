@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int wiggleMaxLength(vector<int>& nums) {
+        if(nums.size()==1 || (nums.size()==2 && nums[0]!=nums[1])) {
+            return nums.size();
+        }
+        int n = nums.size();
+        vector<vector<vector<int>>> dp(n,vector<vector<int>>(n,vector<int>(3,-1)));
+        return 1+lws(nums,1,0,0,dp);
+    }
+    
+    int lws(vector<int> &arr, int indx, int prev, int sign, vector<vector<vector<int>>> &dp) {
+        if(indx>=arr.size()) {
+            return 0;
+        }
+        if(dp[indx][prev][1+sign]!=-1) {
+            return dp[indx][prev][1+sign];
+        }
+        int diff = arr[indx]-arr[prev];
+        int curSign = (diff>0)?1:-1;
+        int pick=0, unpick=0;
+        if(diff!=0 && curSign!=sign) {
+            pick = 1+lws(arr, indx+1, indx, curSign, dp);
+            unpick = lws(arr, indx+1, prev, sign, dp);
+        }
+        else {
+            unpick = lws(arr, indx+1, prev, sign, dp);
+        }
+        return dp[indx][prev][1+sign] = max(pick,unpick);
+    }
+};
