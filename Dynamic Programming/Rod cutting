@@ -1,0 +1,47 @@
+//Tabulaized code
+class Solution{
+  public:
+    int cutRod(int price[], int n) {
+        vector<vector<int>> dp(n,vector<int>(n+1,-1));
+        for(int i=0;i<=n;i++) {
+            dp[0][i] = price[0]*i;
+        }
+        for(int i=1;i<n;i++) {
+            for(int j=0;j<=n;j++) {
+                int notCut = dp[i-1][j];
+                int cut = INT_MIN;
+                int cutLen = i+1;
+                if(cutLen<=j) {
+                    cut = dp[i][j-cutLen]+price[i];
+                }
+                dp[i][j] = max(cut,notCut);
+            }
+        }
+        return dp[n-1][n];
+    }
+};
+
+//Memoized code
+class Solution{
+  public:
+    int cutRod(int price[], int n) {
+        vector<vector<int>> dp(n,vector<int>(n+1,-1));
+        return maxCost(price,n-1,n,dp);
+    }
+    
+    int maxCost(int arr[], int indx, int len, vector<vector<int>> dp) {
+        if(indx==0) {
+            return len*arr[0];
+        }
+        if(dp[indx][len]!=-1) {
+            return dp[indx][len];
+        }
+        int notCut = 0 + maxCost(arr,indx-1,len,dp);
+        int cut = INT_MIN;
+        int rodLen = indx+1;
+        if(rodLen<=len) {
+            cut = arr[indx] + maxCost(arr,indx-1,len-rodLen,dp);
+        }
+        return dp[indx][len] = max(cut,notCut);
+    }
+};
